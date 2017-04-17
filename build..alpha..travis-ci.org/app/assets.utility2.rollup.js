@@ -672,7 +672,7 @@ local.templateApidocHtml = '\
                             file.indexOf(options.packageJson.main) >= 0 ||
                             new RegExp('(?:\\b|_)(?:archive|artifact|asset|' +
                                 'bin|bower_components|build|' +
-                                'cli|coverage' +
+                                'cli|coverage|' +
                                 'doc|dist|' +
                                 'example|external|' +
                                 'fixture|' +
@@ -696,10 +696,12 @@ local.templateApidocHtml = '\
                     module[tmp.name] = tmp.module;
                     // update exampleList
                     options.exampleList.push(readExample(file));
+                    console.error('apidocCreate - ' + options.exampleList.length +
+                        '. added libFile ' + tmp.name);
                 } catch (errorCaught) {
                     console.error(errorCaught);
                 }
-                return options.exampleList.length < 256;
+                return options.exampleList.length >= 256;
             });
             local.apidocModuleDictAdd(options, options.moduleExtraDict);
             Object.keys(options.moduleDict).forEach(function (key) {
@@ -763,11 +765,11 @@ local.templateApidocHtml = '\
                         return;
                     }
                     Object.keys(moduleDict[prefix]).forEach(function (key) {
-                        if (!(/^\w[\w\-.]*?$/).test(key) || !moduleDict[prefix][key]) {
-                            return;
-                        }
-                        // bug-workaround - buggy electron accessors
+                        // bug-workaround - buggy electron getter / setter
                         try {
+                            if (!(/^\w[\w\-.]*?$/).test(key) || !moduleDict[prefix][key]) {
+                                return;
+                            }
                             tmp = element === 'prototype'
                                 ? {
                                     module: moduleDict[prefix][key].prototype,
@@ -788,12 +790,14 @@ local.templateApidocHtml = '\
                                 tmp.module,
                                 tmp.module.prototype
                             ].some(function (dict) {
-                                return Object.keys(dict || {}).some(function (key) {
-                                    try {
-                                        return typeof dict[key] === 'function';
-                                    } catch (ignore) {
-                                    }
-                                });
+                                return typeof dict === 'function' ||
+                                    Object.keys(dict || {}).some(function (key) {
+                                        // bug-workaround - buggy electron getter / setter
+                                        try {
+                                            return typeof dict[key] === 'function';
+                                        } catch (ignore) {
+                                        }
+                                    });
                             });
                             if (!isModule) {
                                 return;
@@ -1538,10 +1542,12 @@ local.templateApidocHtml = '\
                     });
                 }
             });
-            // skip and limit
-            result = result.slice(skip || 0, (skip || 0) + (limit || Infinity));
+            // skip
+            result = result.slice(skip || 0);
             // shuffle
             ((shuffle && local.listShuffle) || local.nop)(result);
+            // limit
+            result = result.slice(0, limit || Infinity);
             return result;
         };
 
@@ -9940,7 +9946,7 @@ the greatest app in the world!\n\
 #### todo\n\
 - none\n\
 \n\
-#### changes for v0.0.1\n\
+#### changelog for v0.0.1\n\
 - none\n\
 \n\
 #### this package requires\n\
@@ -10017,10 +10023,10 @@ the greatest app in the world!\n\
     "scripts": {\n\
         "build-ci": "utility2 shReadmeTest build_ci.sh",\n\
         "env": "env",\n\
-        "heroku-postbuild": "(set -e; npm install \\\"kaizhu256/node-utility2#alpha\\\"; utility2 shDeployHeroku)",\n\
-        "postinstall": "if [ -f npm_scripts.sh ]; then ./npm_scripts.sh postinstall; fi",\n\
-        "start": "(set -e; export PORT=${PORT:-8080}; utility2 start test.js)",\n\
-        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"\n\
+        "heroku-postbuild": "npm install \\\"kaizhu256/node-utility2#alpha\\\" && utility2 shDeployHeroku",\n\
+        "postinstall": "[ ! -f npm_scripts.sh ] || ./npm_scripts.sh postinstall",\n\
+        "start": "PORT=${PORT:-8080} utility2 start test.js",\n\
+        "test": "PORT=$(utility2 shServerPortRandom) utility2 test test.js"\n\
     },\n\
     "version": "0.0.1"\n\
 }\n\
@@ -11648,7 +11654,6 @@ local.assetsDict['/favicon.ico'] = '';
                     local.processSpawnWithTimeout('electron', [
                         __filename,
                         'browserTest',
-                        '--disable-overlay-scrollbar',
                         '--enable-logging'
                     ], {
                         env: options,
@@ -12385,7 +12390,7 @@ return Utf8ArrayToStr(bff);
                 sortDefault: [{
                     fieldName: '_id'
                 }, {
-                    fieldName: 'buildFinishedAt'
+                    fieldName: 'buildStartedAt'
                 }, {
                     fieldName: 'buildState'
                 }, {
@@ -12427,21 +12432,31 @@ return Utf8ArrayToStr(bff);
                     local.onParallelList({
                         list: [{
                             offset: 0,
+                            limit: 100,
                             sort_by: 'asc'
                         }, {
                             offset: 100,
+                            limit: 100,
                             sort_by: 'asc'
                         }, {
                             offset: Math.floor(Math.random() * count) - 100,
+                            limit: 100,
                             sort_by: 'asc'
                         }, {
                             offset: Math.floor(Math.random() * count) - 100,
+                            limit: 100,
                             sort_by: 'asc'
+                        }, {
+                            offset: 0,
+                            limit: 50,
+                            sort_by: 'desc'
                         }, {
                             offset: count - 200,
+                            limit: 100,
                             sort_by: 'desc'
                         }, {
                             offset: count - 100,
+                            limit: 100,
                             sort_by: 'desc'
                         }]
                     }, function (options2, onParallel) {
@@ -12453,7 +12468,7 @@ return Utf8ArrayToStr(bff);
                             },
                             url: 'https://api.travis-ci.org/repos?' +
                                 'include=repository.current_build&' +
-                                'limit=100&' +
+                                'limit=' + options2.element.limit + '&' +
                                 'offset=' + options2.element.offset + '&' +
                                 'sort_by=current_build%3A' + options2.element.sort_by
                         };
@@ -12481,7 +12496,9 @@ return Utf8ArrayToStr(bff);
                             return {
                                 _id: dbRow.name.replace('node-' + options.githubOrg + '-', ''),
                                 active: dbRow.active,
+                                buildDuration: data.duration,
                                 buildFinishedAt: data.finished_at,
+                                buildStartedAt: data.started_at,
                                 buildState: data.state
                             };
                         }));
