@@ -141,10 +141,7 @@
             ].some(function (modulePathList) {
                 modulePathList.some(function (modulePath) {
                     try {
-                        tmp = require('path').resolve(
-                            process.cwd(),
-                            modulePath + '/' + module
-                        );
+                        tmp = require('path').resolve(process.cwd(), modulePath + '/' + module);
                         result = require('fs').statSync(tmp).isDirectory() && tmp;
                         return result;
                     } catch (ignore) {
@@ -416,77 +413,6 @@ local.templateApidocHtml = '\
 </div>\n\
 </div>\n\
 ';
-
-local.templateApidocMd = '\
-{{#if header}} \
-{{header}} \
-{{#unless header}} \
-# api documentation for \
-{{#if env.npm_package_homepage}} \
-[{{env.npm_package_name}} (v{{env.npm_package_version}})]({{env.npm_package_homepage}}) \
-{{#unless env.npm_package_homepage}} \
-{{env.npm_package_name}} (v{{env.npm_package_version}}) \
-{{/if env.npm_package_homepage}} \
-\n\
-## {{env.npm_package_description}} \
-\n\
-{{/if header}} \
-\n\
-\n\
-\n\
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents) \
-{{#each moduleList}} \
-\n\
-\n\
-#### [module {{name}}](#{{id}}) \
-    {{#each elementList}} \
-\n\
-1. \
-{{#if source}} \
-[{{name}} {{signature}}](#{{id}}) \
-{{#unless source}} \
-{{name}} \
-{{/if source}} \
-{{/each elementList}} \
-{{/each moduleList}} \
-{{#each moduleList}} \
-\n\
-\n\
-\n\
-\n\
-# <a name="{{id}}"></a>[module {{name}}](#{{id}}) \
-{{#each elementList}} \
-{{#if source}} \
-\n\
-\n\
-#### <a name="{{id}}"></a>[{{name}} {{signature}}](#{{id}}) \
-\n\
-- description and source-code \
-\n\
-```javascript \
-\n\
-{{source markdownCodeSafe}} \
-\n\
-``` \
-\n\
-- example usage \
-\n\
-```shell \
-\n\
-{{example markdownCodeSafe}} \
-\n\
-``` \
-{{/if source}} \
-{{/each elementList}} \
-{{/each moduleList}} \
-\n\
-\n\
-\n\
-\n\
-# misc \
-\n\
-- this document was created with [utility2](https://github.com/kaizhu256/node-utility2) \
-\n';
 /* jslint-ignore-end */
 
 
@@ -497,13 +423,13 @@ local.templateApidocMd = '\
         /*
          * this function will create the apidoc from options.dir
          */
-            var elementCreate, module, moduleMain, readExample, tmp, trimLeft;
+            var elementCreate, module, moduleMain, readExample, tmp, toString, trimLeft;
             elementCreate = function (module, prefix, key) {
             /*
              * this function will create the apidoc-element in the given module
              */
                 var element;
-                if (options.modeNoRender) {
+                if (options.modeNoApidoc) {
                     return element;
                 }
                 element = {};
@@ -523,19 +449,11 @@ local.templateApidocMd = '\
                     return element;
                 }
                 // init source
-                element.source = 'n/a';
-                // bug-workaround - catch and ignore error
-                // "Function.prototype.toString is not generic"
-                try {
-                    element.source = trimLeft(module[key].toString());
-                } catch (ignore) {
-                }
+                element.source = trimLeft(toString(module[key])) || 'n/a';
                 if (element.source.length > 4096) {
                     element.source = element.source.slice(0, 4096).trimRight() + ' ...';
                 }
-                element.source = (options.template === local.templateApidocHtml
-                    ? local.stringHtmlSafe(element.source)
-                    : element.source)
+                element.source = local.stringHtmlSafe(element.source)
                     .replace((/\([\S\s]*?\)/), function (match0) {
                         // init signature
                         element.signature = match0
@@ -554,15 +472,13 @@ local.templateApidocMd = '\
                     example.replace(
                         new RegExp('((?:\n.*?){8}\\.)(' + key + ')(\\((?:.*?\n){8})'),
                         function (match0, match1, match2, match3) {
-                            element.example = '...' + trimLeft(
-                                options.template === local.templateApidocHtml
-                                    ?  local.stringHtmlSafe(match1) +
-                                        '<span class="apidocCodeKeywordSpan">' +
-                                        local.stringHtmlSafe(match2) +
-                                        '</span>' +
-                                        local.stringHtmlSafe(match3)
-                                    : match0
-                            ).trimRight() + '\n...';
+                            // jslint-hack
+                            local.nop(match0);
+                            element.example = '...' + trimLeft(local.stringHtmlSafe(match1) +
+                                '<span class="apidocCodeKeywordSpan">' +
+                                local.stringHtmlSafe(match2) +
+                                '</span>' +
+                                local.stringHtmlSafe(match3)).trimRight() + '\n...';
                         }
                     );
                     return element.example;
@@ -578,6 +494,16 @@ local.templateApidocMd = '\
                     return ('\n\n\n\n\n\n\n\n' +
                         local.fs.readFileSync(local.path.resolve(options.dir, file), 'utf8') +
                         '\n\n\n\n\n\n\n\n').replace((/\r\n*/g), '\n');
+                } catch (errorCaught) {
+                    return '';
+                }
+            };
+            toString = function (value) {
+            /*
+             * this function will try to return the string form of the value
+             */
+                try {
+                    return String(value);
                 } catch (errorCaught) {
                     return '';
                 }
@@ -614,16 +540,18 @@ local.templateApidocMd = '\
                 // strip email from npmdoc documentation
                 // https://github.com/npmdoc/node-npmdoc-hpp/issues/1
                 if (tmp) {
-                    delete tmp.email;
+                    if (tmp.email) {
+                        delete tmp.email;
+                    }
                     if (Array.isArray(tmp)) {
                         tmp.forEach(function (element) {
-                            if (element) {
+                            if (element && element.email) {
                                 delete element.email;
                             }
                         });
                     }
                 }
-                if (key === 'readme' || key[0] === '_') {
+                if (key[0] === '_' || key === 'readme') {
                     delete options.packageJson[key];
                 } else if (typeof tmp === 'string') {
                     options.env['npm_package_' + key] = tmp;
@@ -661,20 +589,21 @@ local.templateApidocMd = '\
                 moduleMain = options.moduleDict[options.env.npm_package_name] ||
                     require(options.dir);
                 console.error('apidocCreate - ... required ' + options.dir);
-            } catch (errorCaught) {
-                console.error(errorCaught);
+            } catch (ignore) {
             }
             tmp = {};
             // handle case where module is a function
             if (typeof moduleMain === 'function') {
                 (function () {
-                    var toString;
-                    toString = moduleMain.toString();
+                    var text;
+                    text = toString(moduleMain);
                     tmp = function () {
                         return;
                     };
+                    // coverage-hack
+                    tmp();
                     tmp.toString = function () {
-                        return toString;
+                        return text;
                     };
                 }());
             }
@@ -713,12 +642,12 @@ local.templateApidocMd = '\
             // init moduleExtraDict
             local.fs.readdirSync(options.dir).sort().forEach(function (file) {
                 try {
-                    local.fs.readdirSync(options.dir + '/' + file).sort().forEach(function (
-                        file2
-                    ) {
-                        file2 = file + '/' + file2;
-                        options.libFileList.push(file2);
-                    });
+                    local.fs.readdirSync(options.dir + '/' + file)
+                        .sort()
+                        .forEach(function (file2) {
+                            file2 = file + '/' + file2;
+                            options.libFileList.push(file2);
+                        });
                 } catch (errorCaught) {
                     options.libFileList.push(file);
                 }
@@ -732,9 +661,12 @@ local.templateApidocMd = '\
                         .replace('lib.', '')
                         .replace((/\.[^.]*?$/), '')
                         .replace((/\W/g), '_');
+                    if (!tmp.name) {
+                        return;
+                    }
                     [
                         tmp.name,
-                        tmp.name[0].toUpperCase() + tmp.name.slice(1)
+                        tmp.name.slice(0, 1).toUpperCase() + tmp.name.slice(1)
                     ].some(function (name) {
                         tmp.skip = local.path.extname(file) !== '.js' ||
                             file.indexOf(options.packageJson.main) >= 0 ||
@@ -764,7 +696,8 @@ local.templateApidocMd = '\
                     module[tmp.name] = tmp.module;
                     // update exampleList
                     options.exampleList.push(readExample(file));
-                } catch (ignore) {
+                } catch (errorCaught) {
+                    console.error(errorCaught);
                 }
                 return options.exampleList.length < 256;
             });
@@ -830,7 +763,7 @@ local.templateApidocMd = '\
                         return;
                     }
                     Object.keys(moduleDict[prefix]).forEach(function (key) {
-                        if (!(/^\w[\w\-.]*?$/).test(key)) {
+                        if (!(/^\w[\w\-.]*?$/).test(key) || !moduleDict[prefix][key]) {
                             return;
                         }
                         // bug-workaround - buggy electron accessors
@@ -891,10 +824,7 @@ local.templateApidocMd = '\
         // jslint files
         process.stdout.write(local.apidocCreate({
             dir: process.argv[2],
-            modulePathList: module.paths,
-            template: process.argv[3] === '--markdown'
-                ? local.templateApidocMd
-                : local.templateApidocHtml
+            modulePathList: module.paths
         }));
         break;
     }
@@ -10175,6 +10105,11 @@ local.assetsDict['/assets.readmeCustomOrg.npmdoc.template.md'] = '\
 \n\
 ``` \
 \n\
+\n\
+\n\
+\n\
+# misc\n\
+- this document was created with [utility2](https://github.com/kaizhu256/node-utility2)\n\
 ';
 
 
@@ -10203,6 +10138,9 @@ local.assetsDict['/assets.readmeCustomOrg.npmtest.template.md'] = '\
 | test-report : | [![test-report](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/test-report.badge.svg)](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/test-report.html)| \
 \n\
 | build-artifacts : | [![build-artifacts](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/glyphicons_144_folder_open.png)](https://github.com/npmtest/node-npmtest-{{env.npm_package_name}}/tree/gh-pages/build)| \
+\n\
+\n\
+- [https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/coverage.html/index.html](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/coverage.html/index.html) \
 \n\
 \n\
 [![istanbul-coverage](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fcoverage.lib.html.png)](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/coverage.html/index.html) \
@@ -12187,30 +12125,23 @@ return Utf8ArrayToStr(bff);
                     modeForce: true,
                     modulePathList: options.modulePathList
                 }, onParallel);
-                // build README.md
-                options.readme = local.apidocCreate({
-                    dir: local.env.npm_package_buildCustomOrg,
-                    header: local.assetsDict['/assets.readmeCustomOrg.npmdoc.template.md'],
-                    modulePathList: options.modulePathList,
-                    template: local.apidoc.templateApidocMd
-                });
-                local.fs.writeFileSync('README.md', options.readme);
                 break;
             case 'npmtest':
                 // update package.json
                 local.objectSetOverride(options.packageJson, local.objectLiteralize({
                     keywords: ['coverage', 'test', local.env.npm_package_buildCustomOrg]
                 }), 2);
-                // build README.md
-                options.readme = local.apidocCreate({
-                    dir: local.env.npm_package_buildCustomOrg,
-                    modeNoRender: true,
-                    modulePathList: options.modulePathList,
-                    template: local.assetsDict['/assets.readmeCustomOrg.npmtest.template.md']
-                });
-                local.fs.writeFileSync('README.md', options.readme);
                 break;
             }
+            // build README.md
+            options.readme = local.apidocCreate({
+                dir: local.env.npm_package_buildCustomOrg,
+                modeNoApidoc: true,
+                modulePathList: options.modulePathList,
+                template: local.assetsDict['/assets.readmeCustomOrg.' + local.env.GITHUB_ORG +
+                    '.template.md']
+            });
+            local.fs.writeFileSync('README.md', options.readme);
             // re-build package.json
             options.packageJson.description = (/\w.*/).exec(options.readme)[0]
                 .replace((/ {2,}/g), ' ')
@@ -12469,7 +12400,7 @@ return Utf8ArrayToStr(bff);
         /*
          * this function will update dbTableTravisOrg with active, public repos
          */
-            var dbRowList, self;
+            var count, dbRowList, self;
             options = local.objectSetDefault(options, { githubOrg: local.env.GITHUB_ORG });
             local.onNext(options, function (error, data) {
                 switch (options.modeNext) {
@@ -12490,8 +12421,8 @@ return Utf8ArrayToStr(bff);
                     local.ajax(data, options.onNext);
                     break;
                 case 3:
-                    console.error('... fetched ' + data.url);
-                    data = JSON.parse(data.responseText)['@pagination'].count;
+                    count = JSON.parse(data.responseText)['@pagination'].count;
+                    console.error('... fetched ' + data.url + ' with ' + count + ' repos');
                     dbRowList = [];
                     local.onParallelList({
                         list: [{
@@ -12501,28 +12432,16 @@ return Utf8ArrayToStr(bff);
                             offset: 100,
                             sort_by: 'asc'
                         }, {
-                            offset: 200,
+                            offset: Math.floor(Math.random() * count) - 100,
                             sort_by: 'asc'
                         }, {
-                            offset: 300,
+                            offset: Math.floor(Math.random() * count) - 100,
                             sort_by: 'asc'
                         }, {
-                            offset: 400,
-                            sort_by: 'asc'
-                        }, {
-                            offset: data - 500,
+                            offset: count - 200,
                             sort_by: 'desc'
                         }, {
-                            offset: data - 400,
-                            sort_by: 'desc'
-                        }, {
-                            offset: data - 300,
-                            sort_by: 'desc'
-                        }, {
-                            offset: data - 200,
-                            sort_by: 'desc'
-                        }, {
-                            offset: data - 100,
+                            offset: count - 100,
                             sort_by: 'desc'
                         }]
                     }, function (options2, onParallel) {
@@ -12633,6 +12552,7 @@ return Utf8ArrayToStr(bff);
         /*
          * this function will exit the current process with the given exitCode
          */
+            local.onErrorDefault(typeof exitCode !== 'number' && exitCode);
             exitCode = !exitCode || Number(exitCode) === 0
                 ? 0
                 : Number(exitCode) || 1;
@@ -12683,7 +12603,7 @@ return Utf8ArrayToStr(bff);
         /*
          * this function will request the data from options.url
          */
-            var chunkList, onError2, timerTimeout, done, request, response, urlParsed;
+            var chunkList, done, onError2, timerTimeout, request, response, urlParsed;
             // init onError2
             onError2 = function (error) {
                 if (done) {
@@ -13336,10 +13256,7 @@ return Utf8ArrayToStr(bff);
             ].some(function (modulePathList) {
                 modulePathList.some(function (modulePath) {
                     try {
-                        tmp = require('path').resolve(
-                            process.cwd(),
-                            modulePath + '/' + module
-                        );
+                        tmp = require('path').resolve(process.cwd(), modulePath + '/' + module);
                         result = require('fs').statSync(tmp).isDirectory() && tmp;
                         return result;
                     } catch (ignore) {
@@ -15149,6 +15066,13 @@ instruction\n\
             return options;
         };
 
+        local.throwError = function () {
+        /*
+         * this function will throw an error
+         */
+            throw new Error();
+        };
+
         local.tryCatchOnError = function (fnc, onError) {
         /*
          * this function will try to run the fnc in a try-catch block,
@@ -15336,6 +15260,20 @@ instruction\n\
         local.istanbulInstrumentInPackage = local.istanbul.instrumentInPackage || local.echo;
         local.istanbulInstrumentSync = local.istanbul.instrumentSync || local.echo;
         local.jslintAndPrint = local.jslint.jslintAndPrint || local.echo;
+        local.objectWeird = function () {
+            return;
+        };
+        // coverage-hack
+        local.tryCatchOnError(function () {
+            local.objectWeird();
+        }, local.nop);
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
+        // #Defining_getters_and_setters
+        Object.defineProperty(local.objectWeird, 'error', {
+            get: local.throwError,
+            set: local.throwError
+        });
+        local.objectWeird.toString = local.throwError;
         local.regexpEmailValidate = new RegExp(
             '^[a-zA-Z0-9.!#$%&\'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}' +
                 '[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$'
@@ -15619,7 +15557,7 @@ instruction\n\
                         ' of ' + options.list.length + '] exitCode ' + exitCode);
                     onParallel(exitCode && new Error(exitCode), options);
                 });
-            }, local.onErrorThrow);
+            }, local.exit);
             return;
         }
         // init lib
