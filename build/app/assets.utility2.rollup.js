@@ -130,12 +130,11 @@
                 return require('path').resolve(process.cwd(), module || '');
             }
             // search modulePathList
-            [
-                ['node_modules'],
-                modulePathList,
-                require('module').globalPaths
-            ].some(function (modulePathList) {
-                modulePathList.some(function (modulePath) {
+            ['node_modules']
+                .concat(modulePathList)
+                .concat(require('module').globalPaths)
+                .concat([process.env.HOME + '/node_modules', '/usr/local/lib/node_modules'])
+                .some(function (modulePath) {
                     try {
                         tmp = require('path').resolve(process.cwd(), modulePath + '/' + module);
                         result = require('fs').statSync(tmp).isDirectory() && tmp;
@@ -143,8 +142,6 @@
                     } catch (ignore) {
                     }
                 });
-                return result;
-            });
             return result || '';
         };
 
@@ -10184,6 +10181,7 @@ local.assetsDict['/assets.readmeCustomOrg.npmtest.template.md'] = '\
 \n\
 | test-report : | [![test-report](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/test-report.badge.svg)](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/test-report.html)| \
 \n\
+| test-server-github : | [![github.com test-server](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/GitHub-Mark-32px.png)](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/app/index.html) | \
 | build-artifacts : | [![build-artifacts](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/glyphicons_144_folder_open.png)](https://github.com/npmtest/node-npmtest-{{env.npm_package_name}}/tree/gh-pages/build)| \
 \n\
 \n\
@@ -12173,10 +12171,11 @@ return Utf8ArrayToStr(bff);
             options.packageJson = JSON.parse(local.fs.readFileSync('package.json', 'utf8'));
             switch (local.env.GITHUB_ORG) {
             case 'npmdoc':
-                // update package.json
-                local.objectSetOverride(options.packageJson, local.objectLiteralize({
-                    keywords: ['documentation', local.env.npm_package_buildCustomOrg]
-                }), 2);
+                local.objectSetOverride(options, {
+                    packageJson: {
+                        keywords: ['documentation', local.env.npm_package_buildCustomOrg]
+                    }
+                }, 2);
                 // build apidoc.html
                 onParallel.counter += 1;
                 local.buildApidoc({
@@ -12186,10 +12185,11 @@ return Utf8ArrayToStr(bff);
                 }, onParallel);
                 break;
             case 'npmtest':
-                // update package.json
-                local.objectSetOverride(options.packageJson, local.objectLiteralize({
-                    keywords: ['coverage', 'test', local.env.npm_package_buildCustomOrg]
-                }), 2);
+                local.objectSetOverride(options, {
+                    packageJson: {
+                        keywords: ['coverage', 'test', local.env.npm_package_buildCustomOrg]
+                    }
+                }, 2);
                 break;
             }
             // build README.md
@@ -13341,12 +13341,11 @@ return Utf8ArrayToStr(bff);
                 return require('path').resolve(process.cwd(), module || '');
             }
             // search modulePathList
-            [
-                ['node_modules'],
-                modulePathList,
-                require('module').globalPaths
-            ].some(function (modulePathList) {
-                modulePathList.some(function (modulePath) {
+            ['node_modules']
+                .concat(modulePathList)
+                .concat(require('module').globalPaths)
+                .concat([process.env.HOME + '/node_modules', '/usr/local/lib/node_modules'])
+                .some(function (modulePath) {
                     try {
                         tmp = require('path').resolve(process.cwd(), modulePath + '/' + module);
                         result = require('fs').statSync(tmp).isDirectory() && tmp;
@@ -13354,8 +13353,6 @@ return Utf8ArrayToStr(bff);
                     } catch (ignore) {
                     }
                 });
-                return result;
-            });
             return result || '';
         };
 
@@ -13946,6 +13943,53 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
             }()));
         };
 
+        local.requireInSandbox = function (file) {
+        /*
+         * this function will require the file in a sandbox-lite env
+         */
+            var exports, mockDict, mockList, tmp;
+            mockList = [
+                [ local.global, {
+                    setImmediate: local.nop,
+                    setInterval: local.nop,
+                    setTimeout: local.nop
+                }]
+            ];
+            [
+                [local, 'child_process'],
+                [local, 'cluster'],
+                [local, 'fs'],
+                [local, 'http'],
+                [local, 'https'],
+                [local, 'net'],
+                [local, 'repl'],
+                [local.global, 'process'],
+                [process, 'stdin']
+            ].forEach(function (element) {
+                tmp = element[0][element[1]];
+                mockDict = {};
+                Object.keys(tmp).forEach(function (key) {
+                    if (typeof tmp[key] === 'function' && !(
+                            /^(?:fs\.Read|fs\.read|process\.binding|process\.dlopen)/
+                        ).test(element[1] + '.' + key)) {
+                        mockDict[key] = function () {
+                            return;
+                        };
+                        // coverage-hack
+                        mockDict[key]();
+                    }
+                });
+                mockList.push([ module, mockDict ]);
+            });
+            local.testMock(mockList, function (onError) {
+                local.tryCatchOnError(function () {
+                    exports = require(file);
+                }, console.error);
+                onError();
+            }, local.onErrorThrow);
+            return exports;
+        };
+
         local.requireReadme = function () {
         /*
          * this function will require and export example.js embedded in README.md
@@ -14158,53 +14202,6 @@ instruction\n\
                 local.jslintAndPrintConditional(local.assetsDict[key], key);
             });
             return module.exports;
-        };
-
-        local.requireInSandbox = function (file) {
-        /*
-         * this function will require the file in a sandbox-lite env
-         */
-            var exports, mockDict, mockList, tmp;
-            mockList = [
-                [ local.global, {
-                    setImmediate: local.nop,
-                    setInterval: local.nop,
-                    setTimeout: local.nop
-                }]
-            ];
-            [
-                [local, 'child_process'],
-                [local, 'cluster'],
-                [local, 'fs'],
-                [local, 'http'],
-                [local, 'https'],
-                [local, 'net'],
-                [local, 'repl'],
-                [local.global, 'process'],
-                [process, 'stdin']
-            ].forEach(function (element) {
-                tmp = element[0][element[1]];
-                mockDict = {};
-                Object.keys(tmp).forEach(function (key) {
-                    if (typeof tmp[key] === 'function' && !(
-                            /^(?:fs\.Read|fs\.read|process\.binding|process\.dlopen)/
-                        ).test(element[1] + '.' + key)) {
-                        mockDict[key] = function () {
-                            return;
-                        };
-                        // coverage-hack
-                        mockDict[key]();
-                    }
-                });
-                mockList.push([ module, mockDict ]);
-            });
-            local.testMock(mockList, function (onError) {
-                local.tryCatchOnError(function () {
-                    exports = require(file);
-                }, console.error);
-                onError();
-            }, local.onErrorThrow);
-            return exports;
         };
 
         local.serverRespondDefault = function (request, response, statusCode, error) {
