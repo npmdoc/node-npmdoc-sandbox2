@@ -15674,6 +15674,55 @@ instruction\n\
                 });
             }, local.exit);
             return;
+        case 'cli.customOrgStarFilterUnpublished':
+            (function () {
+                var options;
+                options = {};
+                options.dict = {};
+                options.list = [];
+                for (options.ii = Number(process.argv[3]);
+                        options.ii < Number(process.argv[4]);
+                        options.ii += 36) {
+                    options.list.push(options.ii);
+                }
+                local.listShuffle(options.list);
+                local.onParallelList(options, function (options2, onParallel) {
+                    onParallel.counter += 1;
+                    local.ajax({
+                        url: 'https://www.npmjs.com/browse/star?offset=' + options2.element
+                    }, function (error, xhr) {
+                        // jslint-hack
+                        local.nop(error);
+                        console.error('cliCustomOrgStars - fetched ' + xhr.url);
+                        (xhr.responseText || '').replace((
+                            /href=\"\/package\/(.+?)\"/g
+                        ), function (match0, match1) {
+                            match0 = local.env.GITHUB_ORG + '/node-' + local.env.GITHUB_ORG +
+                                '-' + match1;
+                            if (options.dict[match0]) {
+                                return;
+                            }
+                            onParallel.counter += 1;
+                            local.ajax({
+                                url: 'https://raw.githubusercontent.com/' + match0 +
+                                    '/gh-pages/build..alpha..travis-ci.org' +
+                                    '/screenCapture.npmPackageListing.svg'
+                            }, function (error) {
+                                if (error) {
+                                    console.error('adding ' + match0);
+                                    options.dict[match0] = true;
+                                }
+                                onParallel();
+                            });
+                        });
+                        onParallel();
+                    });
+                }, function () {
+                    console.log(Object.keys(options.dict));
+                    local.exit();
+                });
+            }());
+            return;
         case 'dbTableCustomOrgCrudGetManyByQuery':
             local.dbTableCustomOrgCreate(JSON.parse(process.argv[3] || '{}'), function (error) {
                 // validate no error occurred
@@ -15713,7 +15762,7 @@ instruction\n\
                 });
             }, local.exit);
             return;
-        case 'testReportCreate':
+        case 'cli.testReportCreate':
             local.exit(local.testReportCreate(local.tryCatchOnError(function () {
                 return require(local.env.npm_config_dir_build + '/test-report.json');
             }, local.onErrorDefault)).testsFailed);
