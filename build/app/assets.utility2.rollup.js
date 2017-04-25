@@ -12636,9 +12636,9 @@ return Utf8ArrayToStr(bff);
         /*
          * this function will try to determine if the env-key is sensitive
          */
-            return (/(?:\b|_)(?:decrypt|key|pass|private|secret|token)/)
+            return (/(?:\b|_)(?:crypt|decrypt|key|pass|private|secret|token)/)
                 .test(key.toLowerCase()) ||
-                (/Decrypt|Key|Pass|Private|Secret|Token/).test(key);
+                (/Crypt|Decrypt|Key|Pass|Private|Secret|Token/).test(key);
         };
 
         local.envSanitize = function (env) {
