@@ -503,9 +503,11 @@ local.templateApidocHtml = '\
              */
                 var result;
                 local.tryCatchOnError(function () {
+                    file = local.path.resolve(options.dir, file);
+                    console.error('apidocCreate - readExample - ' + file);
                     result = '';
                     result = ('\n\n\n\n\n\n\n\n' +
-                        local.fs.readFileSync(local.path.resolve(options.dir, file), 'utf8') +
+                        local.fs.readFileSync(file, 'utf8') +
                         '\n\n\n\n\n\n\n\n').replace((/\r\n*/g), '\n');
                 }, console.error);
                 return result;
@@ -578,7 +580,7 @@ local.templateApidocHtml = '\
             local.objectSetDefault(options, {
                 blacklistDict: { global: global },
                 circularList: [global],
-                exampleFileList: [],
+                exampleDict: {},
                 exampleList: [],
                 html: '',
                 libFileList: [],
@@ -602,6 +604,7 @@ local.templateApidocHtml = '\
 /\\.\\|\\(\\b\\|_\\)\\(\
 bower_component\\|\
 coverage\\|\
+git\\|\
 min\\|\
 node_module\\|\
 rollup\\|\
@@ -613,7 +616,13 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
                         .split('\n')
                 );
             });
-            options.exampleList = options.exampleList.slice(0, 128).map(readExample);
+            options.exampleList = options.exampleList.filter(function (file) {
+                if (options.exampleDict[file]) {
+                    return;
+                }
+                options.exampleDict[file] = true;
+                return true;
+            }).slice(0, 100).map(readExample);
             // init moduleMain
             local.tryCatchOnError(function () {
                 console.error('apidocCreate - requiring ' + options.dir + ' ...');
@@ -696,6 +705,7 @@ coverage\\|\
 doc\\|dist\\|\
 example\\|external\\|\
 fixture\\|\
+git\\|\
 log\\|\
 min\\|mock\\|\
 node_module\\|\
@@ -709,7 +719,8 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
                         .split('\n')
                 );
             });
-            options.libFileList.some(function (file) {
+            options.ii = 0;
+            options.libFileList.every(function (file) {
                 local.tryCatchOnError(function () {
                     tmp = {};
                     tmp.name = local.path.basename(file)
@@ -732,13 +743,11 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
                     if (!(tmp.module && options.circularList.indexOf(tmp.module) < 0)) {
                         return;
                     }
+                    options.ii += 1;
+                    console.error('apidocCreate - libFile - ' + file);
                     module[tmp.name] = tmp.module;
-                    // update exampleList
-                    options.exampleList.push(readExample(file));
-                    console.error('apidocCreate - ' + options.exampleList.length +
-                        '. added libFile ' + file);
                 }, console.error);
-                return options.exampleList.length >= 256;
+                return options.ii <= 100;
             });
             local.apidocModuleDictAdd(options, options.moduleExtraDict);
             Object.keys(options.moduleDict).forEach(function (key) {
@@ -12451,9 +12460,9 @@ return Utf8ArrayToStr(bff);
         /*
          * this function will create a persistent dbTableCustomOrg
          */
-            options = local.objectSetDefault(options, { githubOrg: local.env.GITHUB_ORG });
+            options = local.objectSetDefault(options, { customOrg: local.env.GITHUB_ORG });
             options = local.objectSetDefault(options, {
-                name: 'CustomOrg.' + options.githubOrg,
+                name: 'CustomOrg.' + options.customOrg,
                 sizeLimit: 1000,
                 sortDefault: [{
                     fieldName: '_id'
@@ -12473,7 +12482,7 @@ return Utf8ArrayToStr(bff);
         /*
          * this function will query dbTableCustomOrg
          */
-            options = local.objectSetDefault(options, { githubOrg: local.env.GITHUB_ORG });
+            options = local.objectSetDefault(options, { customOrg: local.env.GITHUB_ORG });
             options = local.objectSetDefault(options, {
                 query: { buildStartedAt: { $not: { $gt: new Date(Date.now() - (
                     Number(options.olderThanLast) || 0
@@ -12488,7 +12497,7 @@ return Utf8ArrayToStr(bff);
          * this function will update dbTableCustomOrg with active, public repos
          */
             var count, dbRowList, self;
-            options = local.objectSetDefault(options, { githubOrg: local.env.GITHUB_ORG });
+            options = local.objectSetDefault(options, { customOrg: local.env.GITHUB_ORG });
             local.onNext(options, function (error, data) {
                 switch (options.modeNext) {
                 case 1:
@@ -12581,13 +12590,13 @@ return Utf8ArrayToStr(bff);
                     self.crudSetManyById(dbRowList
                         .filter(function (dbRow) {
                             return dbRow.private === false && dbRow.slug.indexOf(
-                                options.githubOrg + '/node-' + options.githubOrg + '-'
+                                options.customOrg + '/node-' + options.customOrg + '-'
                             ) === 0;
                         })
                         .map(function (dbRow) {
                             data = dbRow.current_build || {};
                             return {
-                                _id: dbRow.name.replace('node-' + options.githubOrg + '-', ''),
+                                _id: dbRow.name.replace('node-' + options.customOrg + '-', ''),
                                 active: dbRow.active,
                                 buildDuration: data.duration,
                                 buildFinishedAt: data.finished_at,
@@ -15727,7 +15736,7 @@ instruction\n\
                 }, local.onErrorThrow);
             }());
             return;
-        case 'dbTableCustomOrgCrudGetManyByQuery':
+        case 'cli.dbTableCustomOrgCrudGetManyByQuery':
             local.dbTableCustomOrgCreate(JSON.parse(process.argv[3] || '{}'), function (error) {
                 // validate no error occurred
                 local.assert(!error, error);
@@ -15740,7 +15749,7 @@ instruction\n\
                     .join('\n'));
             });
             return;
-        case 'dbTableCustomOrgUpdate':
+        case 'cli.dbTableCustomOrgUpdate':
             local.dbTableCustomOrgUpdate(
                 JSON.parse(process.argv[3] || '{}'),
                 local.onErrorThrow
