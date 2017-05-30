@@ -1,13 +1,13 @@
 /*
 example.js
 
-quickstart example
+this script will create a web demo of npmdoc-sandbox2
 
 instruction
     1. save this script as example.js
     2. run the shell command:
         $ npm install npmdoc-sandbox2 && PORT=8081 node example.js
-    3. play with the browser-demo on http://127.0.0.1:8081
+    3. open a browser to http://127.0.0.1:8081 and play with the web demo
 */
 
 
@@ -55,7 +55,7 @@ instruction
         local = local.global.utility2_rollup || (local.modeJs === 'browser'
             ? local.global.utility2_npmdoc_sandbox2
             : global.utility2_moduleExports);
-        // export local
+        // init exports
         local.global.local = local;
     }());
     switch (local.modeJs) {
@@ -89,15 +89,15 @@ instruction
             switch (event && event.currentTarget && event.currentTarget.id) {
             case 'testRunButton1':
                 // show tests
-                if (document.querySelector('#testReportDiv1').style.display === 'none') {
-                    document.querySelector('#testReportDiv1').style.display = 'block';
+                if (document.querySelector('#testReportDiv1').style.maxHeight === '0px') {
+                    local.uiAnimateSlideDown(document.querySelector('#testReportDiv1'));
                     document.querySelector('#testRunButton1').textContent =
                         'hide internal test';
                     local.modeTest = true;
                     local.testRunDefault(local);
                 // hide tests
                 } else {
-                    document.querySelector('#testReportDiv1').style.display = 'none';
+                    local.uiAnimateSlideUp(document.querySelector('#testReportDiv1'));
                     document.querySelector('#testRunButton1').textContent = 'run internal test';
                 }
                 break;
@@ -154,7 +154,7 @@ instruction
     // run node js-env code - init-after
     /* istanbul ignore next */
     case 'node':
-        // export local
+        // init exports
         module.exports = local;
         // require modules
         local.fs = require('fs');
@@ -186,9 +186,26 @@ body {\n\
 body > * {\n\
     margin-bottom: 1rem;\n\
 }\n\
+body > button {\n\
+    width: 20rem;\n\
+}\n\
+button {\n\
+    cursor: pointer;\n\
+}\n\
+.uiAnimateSlide {\n\
+    overflow-y: hidden;\n\
+    transition: border-bottom 250ms, border-top 250ms, margin-bottom 250ms, margin-top 250ms, max-height 250ms, min-height 250ms, padding-bottom 250ms, padding-top 250ms;\n\
+}\n\
 .utility2FooterDiv {\n\
     margin-top: 20px;\n\
     text-align: center;\n\
+}\n\
+.zeroPixel {\n\
+    border: 0;\n\
+    height: 0;\n\
+    margin: 0;\n\
+    padding: 0;\n\
+    width: 0;\n\
 }\n\
 </style>\n\
 <style>\n\
@@ -206,7 +223,7 @@ textarea[readonly] {\n\
 </head>\n\
 <body>\n\
 <!-- utility2-comment\n\
-<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 0.5s, width 1.5s; width: 25%;"></div>\n\
+<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; width: 25%;"></div>\n\
 utility2-comment -->\n\
 <h1>\n\
 <!-- utility2-comment\n\
@@ -226,7 +243,7 @@ utility2-comment -->\n\
 <!-- utility2-comment\n\
 <h4><a download href="assets.app.js">download standalone app</a></h4>\n\
 <button class="onclick onreset" id="testRunButton1">run internal test</button><br>\n\
-<div id="testReportDiv1" style="display: none;"></div>\n\
+<div class="uiAnimateSlide" id="testReportDiv1" style="border-bottom: 0; border-top: 0; margin-bottom: 0; margin-top: 0; max-height: 0; padding-bottom: 0; padding-top: 0;"></div>\n\
 utility2-comment -->\n\
 \n\
 \n\
@@ -239,10 +256,12 @@ utility2-comment -->\n\
 {{#unless isRollup}}\n\
 utility2-comment -->\n\
 <script src="assets.utility2.rollup.js"></script>\n\
-<script src="jsonp.utility2._stateInit?callback=window.utility2._stateInit"></script>\n\
-<script src="assets.npmdoc_sandbox2.rollup.js"></script>\n\
+<script>window.utility2.onResetBefore.counter += 1;</script>\n\
+<script src="jsonp.utility2.stateInit?callback=window.utility2.stateInit"></script>\n\
+<script src="assets.npmdoc_sandbox2.js"></script>\n\
 <script src="assets.example.js"></script>\n\
 <script src="assets.test.js"></script>\n\
+<script>window.utility2.onResetBefore();</script>\n\
 <!-- utility2-comment\n\
 {{/if isRollup}}\n\
 utility2-comment -->\n\
@@ -255,35 +274,39 @@ utility2-comment -->\n\
 </html>\n\
 ';
         /* jslint-ignore-end */
-        if (local.templateRender) {
-            local.assetsDict['/'] = local.templateRender(
-                local.assetsDict['/assets.index.template.html'],
-                {
-                    env: local.objectSetDefault(local.env, {
-                        npm_package_description: 'the greatest app in the world!',
-                        npm_package_name: 'my-app',
-                        npm_package_nameAlias: 'my_app',
-                        npm_package_version: '0.0.1'
-                    })
+        [
+            'assets.index.css',
+            'assets.index.template.html',
+            'assets.swgg.swagger.json',
+            'assets.swgg.swagger.server.json'
+        ].forEach(function (file) {
+            local.assetsDict['/' + file] = local.assetsDict['/' + file] || '';
+            if (local.fs.existsSync(local.__dirname + '/' + file)) {
+                local.assetsDict['/' + file] = local.fs.readFileSync(
+                    local.__dirname + '/' + file,
+                    'utf8'
+                );
+            }
+        });
+        local.assetsDict['/'] =
+            local.assetsDict['/assets.example.html'] =
+            local.assetsDict['/assets.index.template.html']
+            .replace((/\{\{env\.(\w+?)\}\}/g), function (match0, match1) {
+                // jslint-hack
+                String(match0);
+                switch (match1) {
+                case 'npm_package_description':
+                    return 'the greatest app in the world!';
+                case 'npm_package_name':
+                    return 'npmdoc-sandbox2';
+                case 'npm_package_nameAlias':
+                    return 'npmdoc_sandbox2';
+                case 'npm_package_version':
+                    return '0.0.1';
+                default:
+                    return match0;
                 }
-            );
-        } else {
-            local.assetsDict['/'] = local.assetsDict['/assets.index.template.html']
-                .replace((/\{\{env\.(\w+?)\}\}/g), function (match0, match1) {
-                    // jslint-hack
-                    String(match0);
-                    switch (match1) {
-                    case 'npm_package_description':
-                        return 'the greatest app in the world!';
-                    case 'npm_package_name':
-                        return 'my-app';
-                    case 'npm_package_nameAlias':
-                        return 'my_app';
-                    case 'npm_package_version':
-                        return '0.0.1';
-                    }
-                });
-        }
+            });
         // run the cli
         if (local.global.utility2_rollup || module !== require.main) {
             break;
@@ -293,8 +316,8 @@ utility2-comment -->\n\
             local.fs.readFileSync(__filename, 'utf8');
         // bug-workaround - long $npm_package_buildCustomOrg
         /* jslint-ignore-begin */
-        local.assetsDict['/assets.npmdoc_sandbox2.rollup.js'] =
-            local.assetsDict['/assets.npmdoc_sandbox2.rollup.js'] ||
+        local.assetsDict['/assets.npmdoc_sandbox2.js'] =
+            local.assetsDict['/assets.npmdoc_sandbox2.js'] ||
             local.fs.readFileSync(
                 local.npmdoc_sandbox2.__dirname + '/lib.npmdoc_sandbox2.js',
                 'utf8'
