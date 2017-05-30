@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>npmdoc-sandbox2 (v2017.4.28)</title>
+<title>npmdoc-sandbox2 (v2017.4.29)</title>
 <style>
 /*csslint
     box-sizing: false,
@@ -20,9 +20,26 @@ body {
 body > * {
     margin-bottom: 1rem;
 }
+body > button {
+    width: 20rem;
+}
+button {
+    cursor: pointer;
+}
+.uiAnimateSlide {
+    overflow-y: hidden;
+    transition: border-bottom 250ms, border-top 250ms, margin-bottom 250ms, margin-top 250ms, max-height 250ms, min-height 250ms, padding-bottom 250ms, padding-top 250ms;
+}
 .utility2FooterDiv {
     margin-top: 20px;
     text-align: center;
+}
+.zeroPixel {
+    border: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    width: 0;
 }
 </style>
 <style>
@@ -40,7 +57,7 @@ textarea[readonly] {
 </head>
 <body>
 
-<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 0.5s, width 1.5s; width: 25%;"></div>
+<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; width: 25%;"></div>
 
 <h1>
 
@@ -51,7 +68,7 @@ textarea[readonly] {
         target="_blank"
     >
 
-        npmdoc-sandbox2 (v2017.4.28)
+        npmdoc-sandbox2 (v2017.4.29)
 
     </a>
 
@@ -60,7 +77,7 @@ textarea[readonly] {
 
 <h4><a download href="assets.app.js">download standalone app</a></h4>
 <button class="onclick onreset" id="testRunButton1">run internal test</button><br>
-<div id="testReportDiv1" style="display: none;"></div>
+<div class="uiAnimateSlide" id="testReportDiv1" style="border-bottom: 0; border-top: 0; margin-bottom: 0; margin-top: 0; max-height: 0; padding-bottom: 0; padding-top: 0;"></div>
 
 
 
@@ -71,10 +88,12 @@ textarea[readonly] {
 
 
 <script src="assets.utility2.rollup.js"></script>
-<script src="jsonp.utility2._stateInit?callback=window.utility2._stateInit"></script>
-<script src="assets.npmdoc_sandbox2.rollup.js"></script>
+<script>window.utility2.onResetBefore.counter += 1;</script>
+<script src="jsonp.utility2.stateInit?callback=window.utility2.stateInit"></script>
+<script src="assets.npmdoc_sandbox2.js"></script>
 <script src="assets.example.js"></script>
 <script src="assets.test.js"></script>
+<script>window.utility2.onResetBefore();</script>
 
 
 

@@ -1,0 +1,143 @@
+<svg height="2238" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="2238" fill="#555" width="720"></rect>
+<text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
+<tspan x="10" y="26"></tspan>
+<tspan x="10" y="42">[MODE_BUILD=npmTest] - 2017-05-30T07:56:36.283Z - npm-testing /home/travis/build/npmdoc/node-npm\</tspan>
+<tspan x="10" y="58">doc-sandbox2</tspan>
+<tspan x="10" y="74"></tspan>
+<tspan x="10" y="90"></tspan>
+<tspan x="10" y="106">npmTest - merged test-report from file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/buil\</tspan>
+<tspan x="10" y="122">d/test-report.json</tspan>
+<tspan x="10" y="138">&gt; server listening on http-port 40596</tspan>
+<tspan x="10" y="154">[node test-case 1 of 7 passed] - testCase_buildApidoc_default</tspan>
+<tspan x="10" y="170">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="186">package.json</tspan>
+<tspan x="10" y="202">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="218">lib.sandbox2.js</tspan>
+<tspan x="10" y="234">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="250">LICENSE</tspan>
+<tspan x="10" y="266">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="282">package.json</tspan>
+<tspan x="10" y="298">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="314">README.md</tspan>
+<tspan x="10" y="330">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="346">test.js</tspan>
+<tspan x="10" y="362">apidocCreate - requiring /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2 ..\</tspan>
+<tspan x="10" y="378">.</tspan>
+<tspan x="10" y="394">apidocCreate - ... required /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2</tspan>
+<tspan x="10" y="410">created apidoc file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build/apidoc.html</tspan>
+<tspan x="10" y="426"></tspan>
+<tspan x="10" y="442">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="458">package.json</tspan>
+<tspan x="10" y="474">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="490">lib.sandbox2.js</tspan>
+<tspan x="10" y="506">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="522">LICENSE</tspan>
+<tspan x="10" y="538">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="554">package.json</tspan>
+<tspan x="10" y="570">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="586">README.md</tspan>
+<tspan x="10" y="602">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="618">test.js</tspan>
+<tspan x="10" y="634">apidocCreate - requiring /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2 ..\</tspan>
+<tspan x="10" y="650">.</tspan>
+<tspan x="10" y="666">apidocCreate - ... required /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2</tspan>
+<tspan x="10" y="682">created customOrg file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/README.md</tspan>
+<tspan x="10" y="698"></tspan>
+<tspan x="10" y="714">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="730">package.json</tspan>
+<tspan x="10" y="746">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="762">lib.sandbox2.js</tspan>
+<tspan x="10" y="778">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="794">LICENSE</tspan>
+<tspan x="10" y="810">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="826">package.json</tspan>
+<tspan x="10" y="842">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="858">README.md</tspan>
+<tspan x="10" y="874">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="890">test.js</tspan>
+<tspan x="10" y="906">apidocCreate - requiring /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2 ..\</tspan>
+<tspan x="10" y="922">.</tspan>
+<tspan x="10" y="938">apidocCreate - ... required /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2</tspan>
+<tspan x="10" y="954">created apidoc file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build/apidoc.html</tspan>
+<tspan x="10" y="970"></tspan>
+<tspan x="10" y="986">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="1002">package.json</tspan>
+<tspan x="10" y="1018">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="1034">lib.sandbox2.js</tspan>
+<tspan x="10" y="1050">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="1066">LICENSE</tspan>
+<tspan x="10" y="1082">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="1098">package.json</tspan>
+<tspan x="10" y="1114">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="1130">README.md</tspan>
+<tspan x="10" y="1146">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
+<tspan x="10" y="1162">test.js</tspan>
+<tspan x="10" y="1178">apidocCreate - requiring /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2 ..\</tspan>
+<tspan x="10" y="1194">.</tspan>
+<tspan x="10" y="1210">apidocCreate - ... required /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2</tspan>
+<tspan x="10" y="1226">created customOrg file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/README.md</tspan>
+<tspan x="10" y="1242"></tspan>
+<tspan x="10" y="1258">[node test-case 2 of 7 passed] - testCase_buildLib_default</tspan>
+<tspan x="10" y="1274">[node test-case 3 of 7 passed] - testCase_buildReadme_default</tspan>
+<tspan x="10" y="1290">[node test-case 4 of 7 passed] - testCase_buildTest_default</tspan>
+<tspan x="10" y="1306"></tspan>
+<tspan x="10" y="1322">browserTest - created electron entry-page /home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/ele\</tspan>
+<tspan x="10" y="1338">ctron.15c585b4fde0.c795485a18f5c.html</tspan>
+<tspan x="10" y="1354"></tspan>
+<tspan x="10" y="1370">[node test-case 5 of 7 passed] - testCase_buildCustomOrg_default</tspan>
+<tspan x="10" y="1386">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="1402"></tspan>
+<tspan x="10" y="1418">npmTest - merged test-report from file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/buil\</tspan>
+<tspan x="10" y="1434">d/test-report.json</tspan>
+<tspan x="10" y="1450">Xlib:  extension "RANDR" missing on display ":99.0".</tspan>
+<tspan x="10" y="1466">[6683:0530/075639:WARNING:audio_manager.cc(314)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="1482">[6683:0530/075639:WARNING:audio_manager.cc(275)] Multiple instances of AudioManager detected</tspan>
+<tspan x="10" y="1498">[6709:0530/075639:ERROR:sandbox_linux.cc(343)] InitializeSandbox() called with multiple threads \</tspan>
+<tspan x="10" y="1514">in process gpu-process. </tspan>
+<tspan x="10" y="1530">&gt; [6683:0530/075639:ERROR:browser_gpu_channel_host_factory.cc(131)] Failed to create channel.</tspan>
+<tspan x="10" y="1546"></tspan>
+<tspan x="10" y="1562">browserTest - opened url http://127.0.0.1:40596?modeTest=1</tspan>
+<tspan x="10" y="1578"></tspan>
+<tspan x="10" y="1594">[6683:0530/075640:INFO:CONSOLE(259)] "[browser test-case 1 of 1 passed] - testCase_browser_nullC\</tspan>
+<tspan x="10" y="1610">ase", source: file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/electron.15c585b4fde0.c7\</tspan>
+<tspan x="10" y="1626">95485a18f5c.html (259)</tspan>
+<tspan x="10" y="1642">server listening on http-port 34519</tspan>
+<tspan x="10" y="1658">[node test-case 6 of 7 passed] - testCase_buildApp_default</tspan>
+<tspan x="10" y="1674"></tspan>
+<tspan x="10" y="1690">browserTest - created screenshot file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build\</tspan>
+<tspan x="10" y="1706">/screenshot.npmTest.browser.%2F.png</tspan>
+<tspan x="10" y="1722"></tspan>
+<tspan x="10" y="1738">browserTest - created screenshot file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build\</tspan>
+<tspan x="10" y="1754">/screenshot.npmTest.browser.%2F.html</tspan>
+<tspan x="10" y="1770"></tspan>
+<tspan x="10" y="1786">browserTest - exit-code 0 - http://127.0.0.1:40596?modeTest=1</tspan>
+<tspan x="10" y="1802"></tspan>
+<tspan x="10" y="1818"></tspan>
+<tspan x="10" y="1834">browserTest - merged test-report from file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/\</tspan>
+<tspan x="10" y="1850">test-report.npmTest.browser.%2F.json</tspan>
+<tspan x="10" y="1866"></tspan>
+<tspan x="10" y="1882">[node test-case 7 of 7 passed] - testCase_webpage_default</tspan>
+<tspan x="10" y="1898"></tspan>
+<tspan x="10" y="1914">npmTest - merged test-report from file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/buil\</tspan>
+<tspan x="10" y="1930">d/test-report.json</tspan>
+<tspan x="10" y="1946"></tspan>
+<tspan x="10" y="1962">-------------------------------------------------------</tspan>
+<tspan x="10" y="1978">| test-report - buildApp - node - linux v6.10.3 - 2017-05-30T07:56:26.650Z</tspan>
+<tspan x="10" y="1994">|   21749 ms            0 failed        7 passed      |</tspan>
+<tspan x="10" y="2010">-------------------------------------------------------</tspan>
+<tspan x="10" y="2026">| test-report - npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTM\</tspan>
+<tspan x="10" y="2042">L, like Gecko) Chrome/53.0.2785.143 Electron/1.4.16 Safari/537.36 - 2017-05-30T07:56:40.355Z</tspan>
+<tspan x="10" y="2058">|      22 ms            0 failed        1 passed      |</tspan>
+<tspan x="10" y="2074">-------------------------------------------------------</tspan>
+<tspan x="10" y="2090"></tspan>
+<tspan x="10" y="2106">created test-report file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build/test-report.\</tspan>
+<tspan x="10" y="2122">html</tspan>
+<tspan x="10" y="2138"></tspan>
+<tspan x="10" y="2154"></tspan>
+<tspan x="10" y="2170">npmTest - 0 failed tests</tspan>
+<tspan x="10" y="2186"></tspan>
+<tspan x="10" y="2202"></tspan>
+<tspan x="10" y="2218">[MODE_BUILD=npmTest] - 2017-05-30T07:56:51.241Z - EXIT_CODE - 0</tspan>
+</text>
+</svg>
