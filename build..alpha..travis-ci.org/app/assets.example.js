@@ -1,13 +1,14 @@
 /*
 example.js
 
-this script will create a web demo of npmdoc-sandbox2
+this script will run a web demo of npmdoc-sandbox2
 
 instruction
     1. save this script as example.js
     2. run the shell command:
         $ npm install npmdoc-sandbox2 && PORT=8081 node example.js
     3. open a browser to http://127.0.0.1:8081 and play with the web demo
+    4. edit this script to suit your needs
 */
 
 
@@ -62,8 +63,7 @@ instruction
 
 
 
-    // init-after
-    // run browser js-env code - init-after
+    // run browser js-env code - init-test
     /* istanbul ignore next */
     case 'browser':
         local.testRunBrowser = function (event) {
@@ -151,15 +151,17 @@ instruction
 
 
 
-    // run node js-env code - init-after
+    // run node js-env code - init-test
     /* istanbul ignore next */
     case 'node':
         // init exports
         module.exports = local;
-        // require modules
-        local.fs = require('fs');
-        local.http = require('http');
-        local.url = require('url');
+        // require builtins
+        Object.keys(process.binding('natives')).forEach(function (key) {
+            if (!local[key] && !(/\/|^_|^sys$/).test(key)) {
+                local[key] = require(key);
+            }
+        });
         // init assets
         local.assetsDict = local.assetsDict || {};
         /* jslint-ignore-begin */
@@ -169,6 +171,7 @@ instruction
 <head>\n\
 <meta charset="UTF-8">\n\
 <meta name="viewport" content="width=device-width, initial-scale=1">\n\
+<!-- "assets.index.default.template.html" -->\n\
 <title>{{env.npm_package_name}} (v{{env.npm_package_version}})</title>\n\
 <style>\n\
 /*csslint\n\
@@ -222,9 +225,52 @@ textarea[readonly] {\n\
 </style>\n\
 </head>\n\
 <body>\n\
-<!-- utility2-comment\n\
-<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; width: 25%;"></div>\n\
-utility2-comment -->\n\
+<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 500ms, width 1500ms; width: 0%;"></div>\n\
+<script>\n\
+/*jslint\n\
+    bitwise: true,\n\
+    browser: true,\n\
+    maxerr: 8,\n\
+    maxlen: 96,\n\
+    node: true,\n\
+    nomen: true,\n\
+    regexp: true,\n\
+    stupid: true\n\
+*/\n\
+(function () {\n\
+    "use strict";\n\
+    var ajaxProgressDiv1,\n\
+        ajaxProgressState,\n\
+        ajaxProgressUpdate,\n\
+        timerIntervalAjaxProgressUpdate;\n\
+    ajaxProgressDiv1 = document.querySelector("#ajaxProgressDiv1");\n\
+    setTimeout(function () {\n\
+        ajaxProgressDiv1.style.width = "25%";\n\
+    });\n\
+    ajaxProgressState = 0;\n\
+    ajaxProgressUpdate = (window.local &&\n\
+        window.local.ajaxProgressUpdate) || function () {\n\
+        ajaxProgressDiv1.style.width = "100%";\n\
+        setTimeout(function () {\n\
+            ajaxProgressDiv1.style.background = "transparent";\n\
+            setTimeout(function () {\n\
+                ajaxProgressDiv1.style.width = "0%";\n\
+            }, 500);\n\
+        }, 1500);\n\
+    };\n\
+    timerIntervalAjaxProgressUpdate = setInterval(function () {\n\
+        ajaxProgressState += 1;\n\
+        ajaxProgressDiv1.style.width = Math.max(\n\
+            100 - 75 * Math.exp(-0.125 * ajaxProgressState),\n\
+            Number(ajaxProgressDiv1.style.width.slice(0, -1)) || 0\n\
+        ) + "%";\n\
+    }, 1000);\n\
+    window.addEventListener("load", function () {\n\
+        clearInterval(timerIntervalAjaxProgressUpdate);\n\
+        ajaxProgressUpdate();\n\
+    });\n\
+}());\n\
+</script>\n\
 <h1>\n\
 <!-- utility2-comment\n\
     <a\n\
@@ -280,10 +326,11 @@ utility2-comment -->\n\
             'assets.swgg.swagger.json',
             'assets.swgg.swagger.server.json'
         ].forEach(function (file) {
-            local.assetsDict['/' + file] = local.assetsDict['/' + file] || '';
-            if (local.fs.existsSync(local.__dirname + '/' + file)) {
-                local.assetsDict['/' + file] = local.fs.readFileSync(
-                    local.__dirname + '/' + file,
+            file = '/' + file;
+            local.assetsDict[file] = local.assetsDict[file] || '';
+            if (local.fs.existsSync(local.__dirname + file)) {
+                local.assetsDict[file] = local.fs.readFileSync(
+                    local.__dirname + file,
                     'utf8'
                 );
             }
@@ -299,7 +346,7 @@ utility2-comment -->\n\
                     return 'the greatest app in the world!';
                 case 'npm_package_name':
                     return 'npmdoc-sandbox2';
-                case 'npm_package_nameAlias':
+                case 'npm_package_nameLib':
                     return 'npmdoc_sandbox2';
                 case 'npm_package_version':
                     return '0.0.1';
@@ -307,8 +354,8 @@ utility2-comment -->\n\
                     return match0;
                 }
             });
-        // run the cli
-        if (local.global.utility2_rollup || module !== require.main) {
+        // init cli
+        if (module !== require.main || local.global.utility2_rollup) {
             break;
         }
         local.assetsDict['/assets.example.js'] =
@@ -319,7 +366,7 @@ utility2-comment -->\n\
         local.assetsDict['/assets.npmdoc_sandbox2.js'] =
             local.assetsDict['/assets.npmdoc_sandbox2.js'] ||
             local.fs.readFileSync(
-                local.npmdoc_sandbox2.__dirname + '/lib.npmdoc_sandbox2.js',
+                local.__dirname + '/lib.npmdoc_sandbox2.js',
                 'utf8'
             ).replace((/^#!/), '//');
         /* jslint-ignore-end */

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- "assets.index.default.template.html" -->
 <title>npmdoc-sandbox2 (v0.0.1)</title>
 <style>
 /*csslint
@@ -56,9 +57,52 @@ textarea[readonly] {
 </style>
 </head>
 <body>
-<!-- utility2-comment
-<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; width: 25%;"></div>
-utility2-comment -->
+<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 500ms, width 1500ms; width: 0%;"></div>
+<script>
+/*jslint
+    bitwise: true,
+    browser: true,
+    maxerr: 8,
+    maxlen: 96,
+    node: true,
+    nomen: true,
+    regexp: true,
+    stupid: true
+*/
+(function () {
+    "use strict";
+    var ajaxProgressDiv1,
+        ajaxProgressState,
+        ajaxProgressUpdate,
+        timerIntervalAjaxProgressUpdate;
+    ajaxProgressDiv1 = document.querySelector("#ajaxProgressDiv1");
+    setTimeout(function () {
+        ajaxProgressDiv1.style.width = "25%";
+    });
+    ajaxProgressState = 0;
+    ajaxProgressUpdate = (window.local &&
+        window.local.ajaxProgressUpdate) || function () {
+        ajaxProgressDiv1.style.width = "100%";
+        setTimeout(function () {
+            ajaxProgressDiv1.style.background = "transparent";
+            setTimeout(function () {
+                ajaxProgressDiv1.style.width = "0%";
+            }, 500);
+        }, 1500);
+    };
+    timerIntervalAjaxProgressUpdate = setInterval(function () {
+        ajaxProgressState += 1;
+        ajaxProgressDiv1.style.width = Math.max(
+            100 - 75 * Math.exp(-0.125 * ajaxProgressState),
+            Number(ajaxProgressDiv1.style.width.slice(0, -1)) || 0
+        ) + "%";
+    }, 1000);
+    window.addEventListener("load", function () {
+        clearInterval(timerIntervalAjaxProgressUpdate);
+        ajaxProgressUpdate();
+    });
+}());
+</script>
 <h1>
 <!-- utility2-comment
     <a
