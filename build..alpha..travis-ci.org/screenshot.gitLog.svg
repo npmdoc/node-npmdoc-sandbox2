@@ -1,33 +1,38 @@
-<svg height="478" width="720" xmlns="http://www.w3.org/2000/svg">
-<rect height="478" fill="#555" width="720"></rect>
+<svg height="558" width="720" xmlns="http://www.w3.org/2000/svg">
+<rect height="558" fill="#555" width="720"></rect>
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
-<tspan x="10" y="26">2017-10-08 12:29:18 +0800</tspan>
+<tspan x="10" y="26">2017-10-08 12:47:17 +0800</tspan>
 <tspan x="10" y="42">[npm publishAfterCommitAfterBuild]</tspan>
-<tspan x="10" y="58">2017-10-08 12:27:53 +0800</tspan>
-<tspan x="10" y="74">npmdoc/node-npmdoc-sandbox3</tspan>
-<tspan x="10" y="90">2017-05-30 07:57:29 +0000</tspan>
-<tspan x="10" y="106">[ci skip] npm published</tspan>
-<tspan x="10" y="122"></tspan>
-<tspan x="10" y="138">2017-05-30 15:54:49 +0800</tspan>
-<tspan x="10" y="154">[npm publishAfterCommitAfterBuild]</tspan>
-<tspan x="10" y="170">2017-04-27 20:20:11 +0000</tspan>
+<tspan x="10" y="58">2017-10-08 04:35:02 +0000</tspan>
+<tspan x="10" y="74">[ci skip] npm published</tspan>
+<tspan x="10" y="90"></tspan>
+<tspan x="10" y="106">2017-10-08 12:29:18 +0800</tspan>
+<tspan x="10" y="122">[npm publishAfterCommitAfterBuild]</tspan>
+<tspan x="10" y="138">2017-10-08 12:27:53 +0800</tspan>
+<tspan x="10" y="154">npmdoc/node-npmdoc-sandbox3</tspan>
+<tspan x="10" y="170">2017-05-30 07:57:29 +0000</tspan>
 <tspan x="10" y="186">[ci skip] npm published</tspan>
 <tspan x="10" y="202"></tspan>
-<tspan x="10" y="218">2017-04-28 00:42:05 +0800</tspan>
+<tspan x="10" y="218">2017-05-30 15:54:49 +0800</tspan>
 <tspan x="10" y="234">[npm publishAfterCommitAfterBuild]</tspan>
-<tspan x="10" y="250">2017-04-26 11:33:21 +0000</tspan>
+<tspan x="10" y="250">2017-04-27 20:20:11 +0000</tspan>
 <tspan x="10" y="266">[ci skip] npm published</tspan>
 <tspan x="10" y="282"></tspan>
-<tspan x="10" y="298">2017-04-26 11:29:11 +0000</tspan>
+<tspan x="10" y="298">2017-04-28 00:42:05 +0800</tspan>
 <tspan x="10" y="314">[npm publishAfterCommitAfterBuild]</tspan>
-<tspan x="10" y="330"></tspan>
-<tspan x="10" y="346">2017-04-25 17:46:48 +0000</tspan>
-<tspan x="10" y="362">[ci skip] npm published</tspan>
-<tspan x="10" y="378"></tspan>
-<tspan x="10" y="394">2017-04-25 17:43:59 +0000</tspan>
-<tspan x="10" y="410">[npm publishAfterCommitAfterBuild]</tspan>
-<tspan x="10" y="426"></tspan>
-<tspan x="10" y="442">2014-03-26 02:31:50 +0700</tspan>
-<tspan x="10" y="458">add blank README.md</tspan>
+<tspan x="10" y="330">2017-04-26 11:33:21 +0000</tspan>
+<tspan x="10" y="346">[ci skip] npm published</tspan>
+<tspan x="10" y="362"></tspan>
+<tspan x="10" y="378">2017-04-26 11:29:11 +0000</tspan>
+<tspan x="10" y="394">[npm publishAfterCommitAfterBuild]</tspan>
+<tspan x="10" y="410"></tspan>
+<tspan x="10" y="426">2017-04-25 17:46:48 +0000</tspan>
+<tspan x="10" y="442">[ci skip] npm published</tspan>
+<tspan x="10" y="458"></tspan>
+<tspan x="10" y="474">2017-04-25 17:43:59 +0000</tspan>
+<tspan x="10" y="490">[npm publishAfterCommitAfterBuild]</tspan>
+<tspan x="10" y="506"></tspan>
+<tspan x="10" y="522">2014-03-26 02:31:50 +0700</tspan>
+<tspan x="10" y="538">add blank README.md</tspan>
 </text>
 </svg>

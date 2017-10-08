@@ -3802,7 +3802,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
                 console.assert(!error, error);
             });
         };
-        local.cliDict.touchlist = function () {
+        local.cliDict.touchList = function () {
         /*
          * fileRemoteList commitMessage
          * touch comma-separated fileRemoteList on github
