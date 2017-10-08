@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>npmdoc-sandbox2 (v2017.4.29)</title>
+<!-- "" -->
+<title>swgg</title>
 <style>
 /*csslint
     box-sizing: false,
@@ -130,6 +131,9 @@ button {
 .swggUiContainer .marginTop10 {
     margin-top: 1rem;
 }
+.swggUiContainer select[multiple] {
+    height: 10rem;
+}
 .swggUiContainer pre,
 .swggUiContainer textarea {
     font-family: Menlo, Monaco, Consolas, Courier New, monospace;
@@ -178,7 +182,7 @@ button {
 }
 /* border-top-bold */
 .swggUiContainer .borderTopBold,
-.swggUiContainer .resource:first-child {
+.swggUiContainer .resourceList {
     border-top: 1px solid #777;
     margin-top: 0.5rem;
     padding-top: 0.5rem;
@@ -413,15 +417,76 @@ border: 0;
 </style>
 </head>
 <body>
-<div id="ajaxProgressDiv1" style="background: #d00; height: 4px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 0.5s, width 1.5s; width: 25%;"></div>
+<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 500ms, width 1500ms; width: 0%;"></div>
+<script>
+/*jslint
+    bitwise: true,
+    browser: true,
+    maxerr: 8,
+    maxlen: 96,
+    node: true,
+    nomen: true,
+    regexp: true,
+    stupid: true
+*/
+(function () {
+    "use strict";
+    var ajaxProgressDiv1,
+        ajaxProgressState,
+        ajaxProgressUpdate,
+        timerIntervalAjaxProgressUpdate;
+    ajaxProgressDiv1 = document.querySelector("#ajaxProgressDiv1");
+    setTimeout(function () {
+        ajaxProgressDiv1.style.width = "25%";
+    });
+    ajaxProgressState = 0;
+    ajaxProgressUpdate = (window.local &&
+        window.local.ajaxProgressUpdate) || function () {
+        ajaxProgressDiv1.style.width = "100%";
+        setTimeout(function () {
+            ajaxProgressDiv1.style.background = "transparent";
+            setTimeout(function () {
+                ajaxProgressDiv1.style.width = "0%";
+            }, 500);
+        }, 1500);
+    };
+    timerIntervalAjaxProgressUpdate = setInterval(function () {
+        ajaxProgressState += 1;
+        ajaxProgressDiv1.style.width = Math.max(
+            100 - 75 * Math.exp(-0.125 * ajaxProgressState),
+            Number(ajaxProgressDiv1.style.width.slice(0, -1)) || 0
+        ) + "%";
+    }, 1000);
+    window.addEventListener("load", function () {
+        clearInterval(timerIntervalAjaxProgressUpdate);
+        ajaxProgressUpdate();
+    });
+}());
+</script>
 <div class="swggUiContainer">
-<form2 class="header tr">
+<div class="eventDelegateKeyup eventDelegateSubmit form header onEventUiReload tr">
     <a class="td1" href="https://github.com/kaizhu256/node-swgg" target="_blank">swgg</a>
-    <input class="flex1 td2" type="text">
-    <button class="td3">Explore</button>
-</form2>
+    <input
+        class="flex1 td2"
+        placeholder="http://petstore.swagger.io/v2/swagger.json"
+        type="text"
+    >
+    <input
+        class="td2"
+        id="swggApiKeyInput1"
+        placeholder="api-key"
+        style="width: 8rem;"
+        type="text"
+    >
+    <button
+        class="eventDelegateClick onEventUiReload td3"
+        id="swggApiKeyClearButton1"
+    >Clear api-keys</button>
+    <button class="eventDelegateClick onEventUiReload td3">Explore</button>
 </div>
-<div class="swggAjaxProgressDiv" style="margin-top: 1rem; text-align: center;">fetching resource list; Please wait.</div>
+<div class="coverageHack reset"></div>
+</div>
+<div class="swggAjaxProgressDiv" style="margin-top: 1rem; text-align: center;">fetching resource-list ...</div>
 <script>
 /*jslint
     bitwise: true,
@@ -435,8 +500,7 @@ border: 0;
 */
 "use strict";
 document.querySelector(".swggUiContainer > .header > .td2").value =
-    ((/\bmodeSwaggerJsonUrl=([^&]+)/g).exec(location.search) &&
-        (/\bmodeSwaggerJsonUrl=([^&]+)/g).exec(location.search)[1]) ||
+    ((/\bmodeSwaggerJsonUrl=([^&]+)/g).exec(location.search) || {})[1] ||
         "assets.swgg.swagger.json";
 </script>
 <script src="assets.utility2.rollup.js"></script>
