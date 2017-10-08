@@ -1,6 +1,6 @@
 {
     "author": "kai zhu <kaizhu256@gmail.com>",
-    "description": "#### basic api documentation for  [sandbox2 (v0.0.35)](https://github.com/kaizhu256/node-sandbox2)  [![npm package](https://img.shields.io/npm/v/npmdoc-sandbox2.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-sandbox2) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sandbox2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sandbox2)",
+    "description": "#### basic api documentation for  [sandbox2 (v2017.9.16)](https://github.com/kaizhu256/node-utility2)  [![npm package](https://img.shields.io/npm/v/npmdoc-sandbox2.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-sandbox2) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sandbox2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sandbox2)",
     "devDependencies": {
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
         "utility2": "kaizhu256/node-utility2#alpha"
@@ -17,6 +17,7 @@
     "main": "lib.npmdoc_sandbox2.js",
     "name": "npmdoc-sandbox2",
     "nameAlias": "npmdoc_sandbox2",
+    "nameLib": "npmdoc_sandbox2",
     "nameOriginal": "npmdoc-sandbox2",
     "os": [
         "darwin",
@@ -34,5 +35,5 @@
         "start": "PORT=${PORT:-8080} utility2 start test.js",
         "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
     },
-    "version": "2017.5.30"
+    "version": "2017.10.8"
 }
