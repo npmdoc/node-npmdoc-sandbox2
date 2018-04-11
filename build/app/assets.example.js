@@ -1,24 +1,25 @@
 /*
 example.js
 
-this script will run a web demo of npmdoc-sandbox2
+this script will run a web-demo of npmdoc-sandbox2
 
 instruction
     1. save this script as example.js
     2. run the shell command:
         $ npm install npmdoc-sandbox2 && PORT=8081 node example.js
-    3. open a browser to http://127.0.0.1:8081 and play with the web demo
+    3. open a browser to http://127.0.0.1:8081 and play with the web-demo
     4. edit this script to suit your needs
 */
 
 
 
 /* istanbul instrument in package npmdoc_sandbox2 */
+/* jslint-utility2 */
 /*jslint
     bitwise: true,
     browser: true,
-    maxerr: 8,
-    maxlen: 96,
+    maxerr: 4,
+    maxlen: 100,
     node: true,
     nomen: true,
     regexp: true,
@@ -91,8 +92,7 @@ instruction
                 // show tests
                 if (document.querySelector('#testReportDiv1').style.maxHeight === '0px') {
                     local.uiAnimateSlideDown(document.querySelector('#testReportDiv1'));
-                    document.querySelector('#testRunButton1').textContent =
-                        'hide internal test';
+                    document.querySelector('#testRunButton1').textContent = 'hide internal test';
                     local.modeTest = true;
                     local.testRunDefault(local);
                 // hide tests
@@ -157,11 +157,40 @@ instruction
         // init exports
         module.exports = local;
         // require builtins
-        Object.keys(process.binding('natives')).forEach(function (key) {
-            if (!local[key] && !(/\/|^_|^sys$/).test(key)) {
-                local[key] = require(key);
-            }
-        });
+        // local.assert = require('assert');
+        local.buffer = require('buffer');
+        local.child_process = require('child_process');
+        local.cluster = require('cluster');
+        local.console = require('console');
+        local.constants = require('constants');
+        local.crypto = require('crypto');
+        local.dgram = require('dgram');
+        local.dns = require('dns');
+        local.domain = require('domain');
+        local.events = require('events');
+        local.fs = require('fs');
+        local.http = require('http');
+        local.https = require('https');
+        local.module = require('module');
+        local.net = require('net');
+        local.os = require('os');
+        local.path = require('path');
+        local.process = require('process');
+        local.punycode = require('punycode');
+        local.querystring = require('querystring');
+        local.readline = require('readline');
+        local.repl = require('repl');
+        local.stream = require('stream');
+        local.string_decoder = require('string_decoder');
+        local.timers = require('timers');
+        local.tls = require('tls');
+        local.tty = require('tty');
+        local.url = require('url');
+        local.util = require('util');
+        local.v8 = require('v8');
+        local.vm = require('vm');
+        local.zlib = require('zlib');
+/* validateLineSortedReset */
         // init assets
         local.assetsDict = local.assetsDict || {};
         /* jslint-ignore-begin */
@@ -174,33 +203,100 @@ instruction
 <!-- "assets.index.default.template.html" -->\n\
 <title>{{env.npm_package_name}} (v{{env.npm_package_version}})</title>\n\
 <style>\n\
+/* jslint-utility2 */\n\
 /*csslint\n\
-    box-sizing: false,\n\
-    universal-selector: false\n\
 */\n\
-* {\n\
+/* jslint-ignore-begin */\n\
+*,\n\
+*:after,\n\
+*:before {\n\
     box-sizing: border-box;\n\
 }\n\
-body {\n\
-    background: #dde;\n\
-    font-family: Arial, Helvetica, sans-serif;\n\
-    margin: 2rem;\n\
+/* jslint-ignore-end */\n\
+@keyframes uiAnimateShake {\n\
+    0%, 50% {\n\
+        transform: translateX(10px);\n\
+    }\n\
+    25%, 75% {\n\
+        transform: translateX(-10px);\n\
+    }\n\
+    100% {\n\
+        transform: translateX(0);\n\
+    }\n\
 }\n\
-body > * {\n\
-    margin-bottom: 1rem;\n\
+@keyframes uiAnimateSpin {\n\
+    0% {\n\
+        transform: rotate(0deg);\n\
+    }\n\
+    100% {\n\
+        transform: rotate(360deg);\n\
+    }\n\
 }\n\
-body > button {\n\
+a {\n\
+    overflow-wrap: break-word;\n\
+}\n\
+body > div,\n\
+body > pre,\n\
+body > textarea,\n\
+body > .button {\n\
+    margin-bottom: 20px;\n\
+}\n\
+body > textarea {\n\
+    height: 10rem;\n\
+    width: 100%;\n\
+}\n\
+body > textarea[readonly] {\n\
+    background: #ddd;\n\
+}\n\
+body > .button {\n\
     width: 20rem;\n\
 }\n\
-button {\n\
+code,\n\
+pre,\n\
+textarea {\n\
+    font-family: Consolas, Menlo, monospace;\n\
+    font-size: small;\n\
+}\n\
+pre {\n\
+    overflow-wrap: break-word;\n\
+    white-space: pre-wrap;\n\
+}\n\
+textarea {\n\
+    overflow: auto;\n\
+    white-space: pre;\n\
+}\n\
+.button {\n\
+    background-color: #fff;\n\
+    border: 1px solid;\n\
+    border-bottom-color: rgb(186, 186, 186);\n\
+    border-left-color: rgb(209, 209, 209);\n\
+    border-radius: 4px;\n\
+    border-right-color: rgb(209, 209, 209);\n\
+    border-top-color: rgb(216, 216, 216);\n\
+    color: #00d;\n\
     cursor: pointer;\n\
+    display: inline-block;\n\
+    font-family: Arial, Helvetica, sans-serif;\n\
+    font-size: 12px;\n\
+    font-style: normal;\n\
+    font-weight: normal;\n\
+    margin: 0;\n\
+    padding: 2px 7px 3px 7px;\n\
+    text-align: center;\n\
+    text-decoration: underline;\n\
+}\n\
+.colorError {\n\
+    color: #d00;\n\
+}\n\
+.uiAnimateShake {\n\
+    animation-duration: 500ms;\n\
+    animation-name: uiAnimateShake;\n\
 }\n\
 .uiAnimateSlide {\n\
     overflow-y: hidden;\n\
-    transition: border-bottom 250ms, border-top 250ms, margin-bottom 250ms, margin-top 250ms, max-height 250ms, min-height 250ms, padding-bottom 250ms, padding-top 250ms;\n\
+    transition: max-height ease-in 250ms, min-height ease-in 250ms, padding-bottom ease-in 250ms, padding-top ease-in 250ms;\n\
 }\n\
 .utility2FooterDiv {\n\
-    margin-top: 20px;\n\
     text-align: center;\n\
 }\n\
 .zeroPixel {\n\
@@ -211,27 +307,18 @@ button {\n\
     width: 0;\n\
 }\n\
 </style>\n\
-<style>\n\
-/*csslint\n\
-*/\n\
-textarea {\n\
-    font-family: monospace;\n\
-    height: 10rem;\n\
-    width: 100%;\n\
-}\n\
-textarea[readonly] {\n\
-    background: #ddd;\n\
-}\n\
-</style>\n\
 </head>\n\
-<body>\n\
-<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 500ms, width 1500ms; width: 0%;"></div>\n\
+<body style="background: #eef; font-family: Arial, Helvetica, sans-serif; margin: 0 40px;">\n\
+<div id="ajaxProgressDiv1" style="background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 500ms, width 1500ms; width: 0%; z-index: 1;"></div>\n\
+<div class="uiAnimateSpin" style="animation: uiAnimateSpin 2s linear infinite; border: 5px solid #999; border-radius: 50%; border-top: 5px solid #7d7; display: none; height: 25px; vertical-align: middle; width: 25px;"></div>\n\
+<code style="display: none;"></code><div class="button uiAnimateShake uiAnimateSlide utility2FooterDiv zeroPixel" style="display: none;"></div><pre style="display: none;"></pre><textarea readonly style="display: none;"></textarea>\n\
 <script>\n\
+/* jslint-utility2 */\n\
 /*jslint\n\
     bitwise: true,\n\
     browser: true,\n\
-    maxerr: 8,\n\
-    maxlen: 96,\n\
+    maxerr: 4,\n\
+    maxlen: 100,\n\
     node: true,\n\
     nomen: true,\n\
     regexp: true,\n\
@@ -287,8 +374,8 @@ utility2-comment -->\n\
 </h1>\n\
 <h3>{{env.npm_package_description}}</h3>\n\
 <!-- utility2-comment\n\
-<h4><a download href="assets.app.js">download standalone app</a></h4>\n\
-<button class="onclick onreset" id="testRunButton1">run internal test</button><br>\n\
+<a class="button" download href="assets.app.js">download standalone app</a><br>\n\
+<button class="button onclick onreset" id="testRunButton1">run internal test</button><br>\n\
 <div class="uiAnimateSlide" id="testReportDiv1" style="border-bottom: 0; border-top: 0; margin-bottom: 0; margin-top: 0; max-height: 0; padding-bottom: 0; padding-top: 0;"></div>\n\
 utility2-comment -->\n\
 \n\
@@ -335,12 +422,17 @@ utility2-comment -->\n\
                 );
             }
         });
+/* validateLineSortedReset */
+        // bug-workaround - long $npm_package_buildCustomOrg
+        /* jslint-ignore-begin */
+        local.assetsDict['/assets.npmdoc_sandbox2.js'] = local.assetsDict['/assets.npmdoc_sandbox2.js'] ||
+            local.fs.readFileSync(local.__dirname + '/lib.npmdoc_sandbox2.js', 'utf8'
+        ).replace((/^#!/), '//');
+/* validateLineSortedReset */
         local.assetsDict['/'] =
             local.assetsDict['/assets.example.html'] =
             local.assetsDict['/assets.index.template.html']
             .replace((/\{\{env\.(\w+?)\}\}/g), function (match0, match1) {
-                // jslint-hack
-                String(match0);
                 switch (match1) {
                 case 'npm_package_description':
                     return 'the greatest app in the world!';
@@ -361,14 +453,6 @@ utility2-comment -->\n\
         local.assetsDict['/assets.example.js'] =
             local.assetsDict['/assets.example.js'] ||
             local.fs.readFileSync(__filename, 'utf8');
-        // bug-workaround - long $npm_package_buildCustomOrg
-        /* jslint-ignore-begin */
-        local.assetsDict['/assets.npmdoc_sandbox2.js'] =
-            local.assetsDict['/assets.npmdoc_sandbox2.js'] ||
-            local.fs.readFileSync(
-                local.__dirname + '/lib.npmdoc_sandbox2.js',
-                'utf8'
-            ).replace((/^#!/), '//');
         /* jslint-ignore-end */
         local.assetsDict['/favicon.ico'] = local.assetsDict['/favicon.ico'] || '';
         // if $npm_config_timeout_exit exists,

@@ -1,9 +1,10 @@
 /* istanbul instrument in package npmdoc_sandbox2 */
+/* jslint-utility2 */
 /*jslint
     bitwise: true,
     browser: true,
-    maxerr: 8,
-    maxlen: 96,
+    maxerr: 4,
+    maxlen: 100,
     node: true,
     nomen: true,
     regexp: true,
