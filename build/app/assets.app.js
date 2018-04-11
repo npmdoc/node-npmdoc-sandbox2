@@ -32631,7 +32631,7 @@ local.stateInit({
             "npm_package_homepage": "https://github.com/npmdoc/node-npmdoc-sandbox2",
             "npm_package_name": "npmdoc-sandbox2",
             "npm_package_nameLib": "npmdoc_sandbox2",
-            "npm_package_version": "2017.10.8"
+            "npm_package_version": "2018.4.11"
         }
     }
 });
