@@ -3,7 +3,7 @@
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
 <tspan x="10" y="26"></tspan>
 
-<tspan x="10" y="42">[MODE_BUILD=buildApidoc] - 2018-04-11T18:02:01.730Z - npm-testing /home/travis/build/npmdoc/node\</tspan>
+<tspan x="10" y="42">[MODE_BUILD=buildApidoc] - 2018-04-11T18:37:20.412Z - npm-testing /home/travis/build/npmdoc/node\</tspan>
 <tspan x="10" y="58">-npmdoc-sandbox2</tspan>
 
 <tspan x="10" y="74"></tspan>
@@ -13,7 +13,7 @@
 <tspan x="10" y="106">buildApidoc - merged test-report from file /home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/bu\</tspan>
 <tspan x="10" y="122">ild/test-report.json</tspan>
 
-<tspan x="10" y="138">&gt; server listening on http-port 61903</tspan>
+<tspan x="10" y="138">&gt; server listening on http-port 43806</tspan>
 
 <tspan x="10" y="154">[node test-case 1 of 1 passed] - testCase_buildApidoc_default</tspan>
 
@@ -26,22 +26,22 @@
 
 <tspan x="10" y="234">-------------------------------------------------------</tspan>
 
-<tspan x="10" y="250">| test-report - buildApidoc - node - linux v6.14.1 - 2018-04-11T18:02:01.960Z</tspan>
+<tspan x="10" y="250">| test-report - buildApidoc - node - linux v6.14.1 - 2018-04-11T18:37:20.661Z</tspan>
 
 <tspan x="10" y="266">|       9 ms            0 failed        1 passed      |</tspan>
 
 <tspan x="10" y="282">-------------------------------------------------------</tspan>
 
-<tspan x="10" y="298">| test-report - buildApp - node - linux v6.14.1 - 2018-04-11T18:01:32.852Z</tspan>
+<tspan x="10" y="298">| test-report - buildApp - node - linux v6.14.1 - 2018-04-11T18:36:52.150Z</tspan>
 
-<tspan x="10" y="314">|   25899 ms            0 failed        8 passed      |</tspan>
+<tspan x="10" y="314">|   25518 ms            0 failed        8 passed      |</tspan>
 
 <tspan x="10" y="330">-------------------------------------------------------</tspan>
 
 <tspan x="10" y="346">| test-report - npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTM\</tspan>
-<tspan x="10" y="362">L, like Gecko) Chrome/58.0.3029.110 Electron/1.7.13 Safari/537.36 - 2018-04-11T18:01:44.100Z</tspan>
+<tspan x="10" y="362">L, like Gecko) Chrome/58.0.3029.110 Electron/1.7.13 Safari/537.36 - 2018-04-11T18:37:02.997Z</tspan>
 
-<tspan x="10" y="378">|      55 ms            0 failed        8 passed      |</tspan>
+<tspan x="10" y="378">|      60 ms            0 failed        8 passed      |</tspan>
 
 <tspan x="10" y="394">-------------------------------------------------------</tspan>
 
@@ -60,7 +60,7 @@
 
 <tspan x="10" y="522"></tspan>
 
-<tspan x="10" y="538">[MODE_BUILD=buildApidoc] - 2018-04-11T18:02:03.546Z - EXIT_CODE - 0</tspan>
+<tspan x="10" y="538">[MODE_BUILD=buildApidoc] - 2018-04-11T18:37:22.199Z - EXIT_CODE - 0</tspan>
 
 </text>
 </svg>

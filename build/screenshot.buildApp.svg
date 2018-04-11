@@ -3,7 +3,7 @@
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
 <tspan x="10" y="26"></tspan>
 
-<tspan x="10" y="42">[MODE_BUILD=buildApp] - 2018-04-11T18:02:24.404Z - npm-testing /home/travis/build/npmdoc/node-np\</tspan>
+<tspan x="10" y="42">[MODE_BUILD=buildApp] - 2018-04-11T18:37:43.211Z - npm-testing /home/travis/build/npmdoc/node-np\</tspan>
 <tspan x="10" y="58">mdoc-sandbox2</tspan>
 
 <tspan x="10" y="74"></tspan>
@@ -13,7 +13,7 @@
 <tspan x="10" y="106">buildApp - merged test-report from file /home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build\</tspan>
 <tspan x="10" y="122">/test-report.json</tspan>
 
-<tspan x="10" y="138">&gt; server listening on http-port 33916</tspan>
+<tspan x="10" y="138">&gt; server listening on http-port 64426</tspan>
 
 <tspan x="10" y="154">apidocCreate - readExample /home/travis/build/npmdoc/node-npmdoc-sandbox2/node_modules/sandbox2/\</tspan>
 <tspan x="10" y="170">package.json</tspan>
@@ -75,7 +75,7 @@
 
 <tspan x="10" y="746"></tspan>
 
-<tspan x="10" y="762">&gt; server listening on http-port 62516</tspan>
+<tspan x="10" y="762">&gt; server listening on http-port 46151</tspan>
 
 <tspan x="10" y="778">[node test-case 1 of 1 passed] - testCase_buildApp_default</tspan>
 
@@ -88,22 +88,22 @@
 
 <tspan x="10" y="858">-------------------------------------------------------</tspan>
 
-<tspan x="10" y="874">| test-report - buildApidoc - node - linux v6.14.1 - 2018-04-11T18:02:01.960Z</tspan>
+<tspan x="10" y="874">| test-report - buildApidoc - node - linux v6.14.1 - 2018-04-11T18:37:20.661Z</tspan>
 
-<tspan x="10" y="890">|   28447 ms            0 failed        1 passed      |</tspan>
+<tspan x="10" y="890">|   28579 ms            0 failed        1 passed      |</tspan>
 
 <tspan x="10" y="906">-------------------------------------------------------</tspan>
 
-<tspan x="10" y="922">| test-report - buildApp - node - linux v6.14.1 - 2018-04-11T18:01:32.852Z</tspan>
+<tspan x="10" y="922">| test-report - buildApp - node - linux v6.14.1 - 2018-04-11T18:36:52.150Z</tspan>
 
-<tspan x="10" y="938">|   25899 ms            0 failed        8 passed      |</tspan>
+<tspan x="10" y="938">|   25518 ms            0 failed        8 passed      |</tspan>
 
 <tspan x="10" y="954">-------------------------------------------------------</tspan>
 
 <tspan x="10" y="970">| test-report - npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTM\</tspan>
-<tspan x="10" y="986">L, like Gecko) Chrome/58.0.3029.110 Electron/1.7.13 Safari/537.36 - 2018-04-11T18:01:44.100Z</tspan>
+<tspan x="10" y="986">L, like Gecko) Chrome/58.0.3029.110 Electron/1.7.13 Safari/537.36 - 2018-04-11T18:37:02.997Z</tspan>
 
-<tspan x="10" y="1002">|      55 ms            0 failed        8 passed      |</tspan>
+<tspan x="10" y="1002">|      60 ms            0 failed        8 passed      |</tspan>
 
 <tspan x="10" y="1018">-------------------------------------------------------</tspan>
 
@@ -122,7 +122,7 @@
 
 <tspan x="10" y="1146"></tspan>
 
-<tspan x="10" y="1162">[MODE_BUILD=buildApp] - 2018-04-11T18:02:32.006Z - EXIT_CODE - 0</tspan>
+<tspan x="10" y="1162">[MODE_BUILD=buildApp] - 2018-04-11T18:37:50.747Z - EXIT_CODE - 0</tspan>
 
 </text>
 </svg>
