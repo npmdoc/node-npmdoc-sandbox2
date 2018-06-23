@@ -1,12 +1,8 @@
-<html data-scrape="{
-    &quot;hrefDict&quot;: {
-        &quot;https://github.com/npmdoc/node-npmdoc-sandbox2&quot;: &quot;npmdoc-sandbox2 (v2017.10.8)&quot;,
-        &quot;https://github.com/kaizhu256/node-utility2&quot;: &quot;utility2&quot;
-    },
-    &quot;href&quot;: &quot;file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build/test-report.html&quot;,
-    &quot;url&quot;: &quot;file:///home/travis/build/npmdoc/node-npmdoc-sandbox2/tmp/build/test-report.html&quot;,
-    &quot;bodyTextContent&quot;: &quot;&quot;
-}"><head></head><body><div class="testReportDiv">
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- "" -->
+<title>test-report</title>
 <style>
 /* jslint-utility2 */
 /*csslint
@@ -39,6 +35,11 @@
 }
 a {
     overflow-wrap: break-word;
+}
+body {
+    background: #eef;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0 40px;
 }
 body > div,
 body > pre,
@@ -111,14 +112,9 @@ textarea {
     padding: 0;
     width: 0;
 }
-</style>
-<style>
 /* jslint-utility2 */
 /*csslint
 */
-.testReportDiv {
-    font-family: Arial, Helvetica, sans-serif;
-}
 .testReportDiv img {
     border: 1px solid black;
     margin: 5px 0 5px 0;
@@ -166,9 +162,93 @@ textarea {
     background: #99f;
 }
 </style>
+</head>
+<body>
+<div id="ajaxProgressDiv1" style="background: transparent; height: 2px; left: 0px; margin: 0px; padding: 0px; position: fixed; top: 0px; transition: background 500ms, width 1500ms; width: 0%; z-index: 1;"></div>
+<div class="uiAnimateSpin" style="animation: uiAnimateSpin 2s linear infinite; border: 5px solid #999; border-radius: 50%; border-top: 5px solid #7d7; display: none; height: 25px; vertical-align: middle; width: 25px;"></div>
+<code style="display: none;"></code><div class="button colorError uiAnimateShake uiAnimateSlide utility2FooterDiv zeroPixel" style="display: none;"></div><pre style="display: none;"></pre><textarea readonly="" style="display: none;"></textarea>
+<script>
+/* jslint-utility2 */
+/*jslint
+    bitwise: true,
+    browser: true,
+    maxerr: 4,
+    maxlen: 100,
+    node: true,
+    nomen: true,
+    regexp: true,
+    stupid: true
+*/
+// init timerIntervalAjaxProgressUpdate
+(function () {
+/*
+ * this function will increment the ajax-progress-bar until the webpage has loaded
+ */
+    "use strict";
+    var ajaxProgressDiv1,
+        ajaxProgressState,
+        ajaxProgressUpdate;
+    if (window.timerIntervalAjaxProgressUpdate) {
+        return;
+    }
+    ajaxProgressDiv1 = document.querySelector("#ajaxProgressDiv1");
+    setTimeout(function () {
+        ajaxProgressDiv1.style.width = "25%";
+    });
+    ajaxProgressState = 0;
+    ajaxProgressUpdate = (window.local &&
+        window.local.ajaxProgressUpdate) || function () {
+        ajaxProgressDiv1.style.width = "100%";
+        setTimeout(function () {
+            ajaxProgressDiv1.style.background = "transparent";
+            setTimeout(function () {
+                ajaxProgressDiv1.style.width = "0%";
+            }, 500);
+        }, 1500);
+    };
+    window.timerIntervalAjaxProgressUpdate = setInterval(function () {
+        ajaxProgressState += 1;
+        ajaxProgressDiv1.style.width = Math.max(
+            100 - 75 * Math.exp(-0.125 * ajaxProgressState),
+            ajaxProgressDiv1.style.width.slice(0, -1) | 0
+        ) + "%";
+    }, 1000);
+    window.addEventListener("load", function () {
+        clearInterval(window.timerIntervalAjaxProgressUpdate);
+        ajaxProgressUpdate();
+    });
+}());
+// init domOnEventSelectAllWithinPre
+(function () {
+/*
+ * this function will limit select-all within <pre tabIndex="0"> elements
+ * https://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
+ */
+    "use strict";
+    if (window.domOnEventSelectAllWithinPre) {
+        return;
+    }
+    window.domOnEventSelectAllWithinPre = function (event) {
+        var range, selection;
+        if (event &&
+                event.code === "KeyA" &&
+                (event.ctrlKey || event.metaKey) &&
+                event.target.closest("pre")) {
+            range = document.createRange();
+            range.selectNodeContents(event.target.closest("pre"));
+            selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            event.preventDefault();
+        }
+    };
+    document.addEventListener("keydown", window.domOnEventSelectAllWithinPre);
+}());
+</script>
+<div class="testReportDiv">
 <h1>test-report for
     <a href="https://github.com/npmdoc/node-npmdoc-sandbox2">
-        npmdoc-sandbox2 (v2017.10.8)
+        npmdoc-sandbox2 (2017.10.8)
     </a>
 </h1>
 <div class="platform summary">
@@ -176,10 +256,10 @@ textarea {
 <h4>
     <span>version</span>-
         2017.10.8<br>
-    <span>test date</span>- 2018-04-11T18:37:20.666Z<br>
+    <span>test date</span>- 2018-06-23T15:07:50.041Z<br>
     <span>commit info</span>-
         
-        0326404d65f48bfab1316312c7e5eca7fe866874 - <br>
+        6a08343ef391078b441ec37648ae4942e7bbff86 - <br>
         
 </h4>
 <table>
@@ -192,7 +272,7 @@ textarea {
     </tr>
 </thead>
 <tbody><tr>
-    <td>29791 ms</td>
+    <td>30128 ms</td>
     <td class="testPassed">0</td>
     <td>17</td>
     <td>0</td>
@@ -202,14 +282,14 @@ textarea {
 
 <div class="platform">
 <h4>
-    1. buildApidoc - node - linux v6.14.1 - 2018-04-11T18:37:20.661Z<br>
+    1. buildApidoc - node - linux v6.14.3 - 2018-06-23T15:07:50.036Z<br>
     
     <a href="screenshot.buildApidoc.svg">
-        <img src="screenshot.buildApidoc.svg">
+        <img alt="screenshot.buildApidoc.svg" src="screenshot.buildApidoc.svg">
     </a>
     <br>
     
-    <span>time-elapsed</span>- 1289 ms<br>
+    <span>time-elapsed</span>- 1272 ms<br>
     <span>tests failed</span>- 0<br>
     <span>tests passed</span>- 1<br>
     <span>tests pending</span>- 0<br>
@@ -232,20 +312,20 @@ textarea {
 
 </tbody>
 </table>
-<pre class="displayNone">
+<pre class="displayNone" tabindex="0">
 </pre>
 </div>
 
 <div class="platform">
 <h4>
-    2. buildApp - node - linux v6.14.1 - 2018-04-11T18:36:52.150Z<br>
+    2. buildApp - node - linux v6.14.3 - 2018-06-23T15:07:21.175Z<br>
     
     <a href="screenshot.buildApp.svg">
-        <img src="screenshot.buildApp.svg">
+        <img alt="screenshot.buildApp.svg" src="screenshot.buildApp.svg">
     </a>
     <br>
     
-    <span>time-elapsed</span>- 29791 ms<br>
+    <span>time-elapsed</span>- 30128 ms<br>
     <span>tests failed</span>- 0<br>
     <span>tests passed</span>- 8<br>
     <span>tests pending</span>- 0<br>
@@ -268,21 +348,21 @@ textarea {
 
 <tr>
     <td>3</td>
-    <td>6183 ms</td>
+    <td>6296 ms</td>
     <td class="testPassed">passed</td>
     <td>testCase_buildApp_default</td>
 </tr>
 
 <tr>
     <td>4</td>
-    <td>185 ms</td>
+    <td>220 ms</td>
     <td class="testPassed">passed</td>
     <td>testCase_buildCustomOrg_default</td>
 </tr>
 
 <tr>
     <td>5</td>
-    <td>1 ms</td>
+    <td>2 ms</td>
     <td class="testPassed">passed</td>
     <td>testCase_buildLib_default</td>
 </tr>
@@ -303,34 +383,34 @@ textarea {
 
 <tr>
     <td>8</td>
-    <td>1 ms</td>
+    <td>0 ms</td>
     <td class="testPassed">passed</td>
     <td>testCase_nop_default</td>
 </tr>
 
 <tr>
     <td>9</td>
-    <td>16628 ms</td>
+    <td>16744 ms</td>
     <td class="testPassed">passed</td>
     <td>testCase_webpage_default</td>
 </tr>
 
 </tbody>
 </table>
-<pre class="displayNone">
+<pre class="displayNone" tabindex="0">
 </pre>
 </div>
 
 <div class="platform">
 <h4>
-    3. npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Electron/1.7.13 Safari/537.36 - 2018-04-11T18:37:02.997Z<br>
+    3. npmTest - browser - / - Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Electron/1.7.15 Safari/537.36 - 2018-06-23T15:07:32.449Z<br>
     
     <a href="screenshot.npmTest.browser.%252F.png">
-        <img src="screenshot.npmTest.browser.%252F.png">
+        <img alt="screenshot.npmTest.browser.%252F.png" src="screenshot.npmTest.browser.%252F.png">
     </a>
     <br>
     
-    <span>time-elapsed</span>- 19087 ms<br>
+    <span>time-elapsed</span>- 19007 ms<br>
     <span>tests failed</span>- 0<br>
     <span>tests passed</span>- 8<br>
     <span>tests pending</span>- 0<br>
@@ -395,14 +475,14 @@ textarea {
 
 <tr>
     <td>17</td>
-    <td>31 ms</td>
+    <td>29 ms</td>
     <td class="testPassed">passed</td>
     <td>testCase_webpage_default</td>
 </tr>
 
 </tbody>
 </table>
-<pre class="displayNone">
+<pre class="displayNone" tabindex="0">
 </pre>
 </div>
 
@@ -412,4 +492,6 @@ textarea {
     ]
 </div>
 </div>
+
+
 </body></html>

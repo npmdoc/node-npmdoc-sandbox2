@@ -1,21 +1,21 @@
 <svg height="158" width="720" xmlns="http://www.w3.org/2000/svg">
 <rect height="158" fill="#555" width="720"></rect>
 <text fill="#7f7" font-family="Courier New" font-size="12" xml:space="preserve">
-<tspan x="10" y="26">  package files</tspan>
+<tspan x="10" y="26">package files</tspan>
 
 <tspan x="10" y="42"></tspan>
 
-<tspan x="10" y="58">  0.  2018-04-11 18:37:22 +0000    38527 bytes  .</tspan>
+<tspan x="10" y="58">0.   2018-06-23 15:07:51 +0000    36810 bytes  .</tspan>
 
-<tspan x="10" y="74">  1.  2018-04-11 18:37:22 +0000     1120 bytes  LICENSE</tspan>
+<tspan x="10" y="74">1.   2018-06-23 15:07:51 +0000     1120 bytes  LICENSE</tspan>
 
-<tspan x="10" y="90">  2.  2018-04-11 18:37:22 +0000    29683 bytes  README.md</tspan>
+<tspan x="10" y="90">2.   2018-06-23 15:07:51 +0000    29683 bytes  README.md</tspan>
 
-<tspan x="10" y="106">  3.  2018-04-11 18:37:22 +0000     3307 bytes  lib.sandbox2.js</tspan>
+<tspan x="10" y="106">3.   2018-06-23 15:07:51 +0000     3307 bytes  lib.sandbox2.js</tspan>
 
-<tspan x="10" y="122">  4.  2018-04-11 18:37:22 +0000     3114 bytes  package.json</tspan>
+<tspan x="10" y="122">4.   2018-06-23 15:07:51 +0000     1397 bytes  package.json</tspan>
 
-<tspan x="10" y="138">  5.  2018-04-11 18:37:22 +0000     1303 bytes  test.js</tspan>
+<tspan x="10" y="138">5.   2018-06-23 15:07:51 +0000     1303 bytes  test.js</tspan>
 
 </text>
 </svg>

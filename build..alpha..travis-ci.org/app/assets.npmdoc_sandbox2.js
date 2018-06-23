@@ -17,38 +17,54 @@
 
 
     // run shared js-env code - init-before
+    /* istanbul ignore next */
     (function () {
+        // init debug_inline
+        (function () {
+            var consoleError, context, key;
+            context = (typeof window === "object" && window) || global;
+            key = "debug_inline".replace("_i", "I");
+            if (context[key]) {
+                return;
+            }
+            consoleError = console.error;
+            context[key] = function (arg0) {
+            /*
+             * this function will both print arg0 to stderr and return it
+             */
+                // debug arguments
+                context["_" + key + "Arguments"] = arguments;
+                consoleError("\n\n" + key);
+                consoleError.apply(console, arguments);
+                consoleError("\n");
+                // return arg0 for inspection
+                return arg0;
+            };
+        }());
         // init local
         local = {};
-        // init modeJs
-        local.modeJs = (function () {
-            try {
-                return typeof navigator.userAgent === 'string' &&
-                    typeof document.querySelector('body') === 'object' &&
-                    typeof XMLHttpRequest.prototype.open === 'function' &&
-                    'browser';
-            } catch (errorCaughtBrowser) {
-                return module.exports &&
-                    typeof process.versions.node === 'string' &&
-                    typeof require('http').createServer === 'function' &&
-                    'node';
-            }
-        }());
+        // init isBrowser
+        local.isBrowser = typeof window === "object" &&
+            typeof window.XMLHttpRequest === "function" &&
+            window.document &&
+            typeof window.document.querySelectorAll === "function";
         // init global
-        local.global = local.modeJs === 'browser'
+        local.global = local.isBrowser
             ? window
             : global;
-        // init utility2_rollup
-        local = local.global.utility2_rollup || local;
-        /* istanbul ignore next */
-        if (!local) {
-            local = local.global.utility2_rollup ||
-                local.global.utility2_rollup_old ||
-                require('./assets.utility2.rollup.js');
-            local.fs = null;
-        }
+        // re-init local
+        local = local.global.utility2_rollup ||
+            // local.global.utility2_rollup_old || require('./assets.utility2.rollup.js') ||
+            local;
+        // init nop
+        local.nop = function () {
+        /*
+         * this function will do nothing
+         */
+            return;
+        };
         // init exports
-        if (local.modeJs === 'browser') {
+        if (local.isBrowser) {
             local.global.utility2_npmdoc_sandbox2 = local;
         } else {
             // require builtins
@@ -85,25 +101,15 @@
             local.v8 = require('v8');
             local.vm = require('vm');
             local.zlib = require('zlib');
-/* validateLineSortedReset */
             module.exports = local;
             module.exports.__dirname = __dirname;
         }
-        // init lib
+        // init lib main
         local.local = local.npmdoc_sandbox2 = local;
-        // init exports
-        if (local.modeJs === 'browser') {
-            local.global.utility2_npmdoc_sandbox2 = local;
-        } else {
-            // require builtins
-            Object.keys(process.binding('natives')).forEach(function (key) {
-                if (!local[key] && !(/\/|^_|^sys$/).test(key)) {
-                    local[key] = require(key);
-                }
-            });
-            module.exports = local;
-            module.exports.__dirname = __dirname;
-            module.exports.module = module;
-        }
+
+
+
+        /* validateLineSortedReset */
+        return;
     }());
 }());
