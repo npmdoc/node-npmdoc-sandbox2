@@ -1,6 +1,6 @@
 {
     "author": "kai zhu <kaizhu256@gmail.com>",
-    "description": "#### basic api documentation for  [sandbox2 (v2017.9.16)](https://github.com/kaizhu256/node-utility2)  [![npm package](https://img.shields.io/npm/v/npmdoc-sandbox2.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-sandbox2) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sandbox2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sandbox2)",
+    "description": "#### basic api documentation for  [sandbox2 (2018.4.11)](https://github.com/kaizhu256/node-sandbox2)  [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sandbox2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sandbox2)",
     "devDependencies": {
         "electron-lite": "kaizhu256/node-electron-lite#alpha",
         "utility2": "kaizhu256/node-utility2#alpha"
@@ -17,6 +17,7 @@
     "main": "lib.npmdoc_sandbox2.js",
     "name": "npmdoc-sandbox2",
     "nameAlias": "npmdoc_sandbox2",
+    "nameAliasPublish": "",
     "nameLib": "npmdoc_sandbox2",
     "nameOriginal": "npmdoc-sandbox2",
     "os": [
@@ -28,12 +29,13 @@
         "url": "https://github.com/npmdoc/node-npmdoc-sandbox2.git"
     },
     "scripts": {
-        "build-ci": "utility2 shReadmeTest build_ci.sh",
-        "env": "env",
-        "heroku-postbuild": "npm install \"kaizhu256/node-utility2#alpha\" && utility2 shDeployHeroku",
-        "postinstall": "[ ! -f npm_scripts.sh ] || ./npm_scripts.sh postinstall",
-        "start": "PORT=${PORT:-8080} utility2 start test.js",
-        "test": "(set -e; export PORT=$(utility2 shServerPortRandom); utility2 test test.js)"
+        "build-ci": "./npm_scripts.sh",
+        "eval": "./npm_scripts.sh",
+        "heroku-postbuild": "./npm_scripts.sh",
+        "postinstall": "./npm_scripts.sh",
+        "start": "./npm_scripts.sh",
+        "test": "./npm_scripts.sh",
+        "utility2": "./npm_scripts.sh"
     },
-    "version": "2017.10.8"
+    "version": "2018.6.23"
 }

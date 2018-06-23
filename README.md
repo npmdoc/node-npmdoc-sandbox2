@@ -1,8 +1,8 @@
 # npmdoc-sandbox2
 
-#### basic api documentation for  [sandbox2 (v2017.9.16)](https://github.com/kaizhu256/node-utility2)  [![npm package](https://img.shields.io/npm/v/npmdoc-sandbox2.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-sandbox2) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sandbox2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sandbox2)
+#### basic api documentation for  [sandbox2 (2018.4.11)](https://github.com/kaizhu256/node-sandbox2)  [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-sandbox2.svg)](https://travis-ci.org/npmdoc/node-npmdoc-sandbox2)
 
-#### the zero-dependency, swiss-army-knife utility for building, testing, and deploying webapps
+#### this is a test app
 
 [![NPM](https://nodei.co/npm/sandbox2.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/sandbox2)
 
@@ -24,54 +24,39 @@
     "author": {
         "name": "kai zhu"
     },
-    "bin": {
-        "utility2": "lib.utility2.sh",
-        "utility2-apidoc": "lib.apidoc.js",
-        "utility2-db": "lib.db.js",
-        "utility2-github-crud": "lib.github_crud.js",
-        "utility2-istanbul": "lib.istanbul.js",
-        "utility2-jslint": "lib.jslint.js",
-        "utility2-uglifyjs": "lib.uglifyjs.js"
-    },
     "bugs": {
-        "url": "https://github.com/kaizhu256/node-utility2/issues"
+        "url": "https://github.com/kaizhu256/node-sandbox2/issues"
     },
     "dependencies": {},
-    "description": "the zero-dependency, swiss-army-knife utility for building, testing, and deploying webapps",
+    "description": "this is a test app",
     "devDependencies": {
-        "electron-lite": "github:kaizhu256/node-electron-lite#alpha"
+        "electron-lite": "github:kaizhu256/node-electron-lite#alpha",
+        "utility2": "github:kaizhu256/node-utility2#alpha"
     },
     "directories": {},
     "dist": {
-        "integrity": "sha512-6RZBX0IIQNJ+VZiwQbjd22VJIOV+ChhSgY1LHb98iGbI2g9kjLAxys8V9pK3h/EY+2KI8yJf6eGKM04nPr7g5A==",
-        "shasum": "a75aa0062c536c4262e3bc09ffc332cb2e387a80",
-        "tarball": "https://registry.npmjs.org/sandbox2/-/sandbox2-2017.9.16.tgz"
+        "integrity": "sha512-ZvqDuh/fkORzeDEacXMOjjaSq8kqFgzHh69JtIjiRJpAMgBruenZgA3qjxb0dWn4Oph14uznQoH/BBHGslj/Pw==",
+        "shasum": "d56b0eb0ce93057d13ff20f78768329e9c36ebae",
+        "tarball": "https://registry.npmjs.org/sandbox2/-/sandbox2-2018.4.11.tgz",
+        "fileCount": 5,
+        "unpackedSize": 36810
     },
     "engines": {
         "node": ">=4.0"
     },
-    "homepage": "https://github.com/kaizhu256/node-utility2",
-    "keywords": [
-        "continuous-integration",
-        "istanbul",
-        "jslint",
-        "npmdoc",
-        "npmtest",
-        "test",
-        "test-coverage",
-        "travis-ci"
-    ],
+    "homepage": "https://github.com/kaizhu256/node-sandbox2",
+    "keywords": [],
     "license": "MIT",
-    "main": "lib.utility2.js",
+    "main": "lib.sandbox2.js",
     "maintainers": [
         {
             "name": "kaizhu"
         }
     ],
     "name": "sandbox2",
-    "nameAlias": "utility2",
-    "nameAliasPublish": "npmtest-lite npmtest4 test-lite",
-    "nameOriginal": "utility2",
+    "nameAliasPublish": "",
+    "nameLib": "sandbox2",
+    "nameOriginal": "sandbox2",
     "optionalDependencies": {},
     "os": [
         "darwin",
@@ -79,17 +64,20 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/kaizhu256/node-utility2.git"
+        "url": "git+https://github.com/kaizhu256/node-sandbox2.git"
     },
     "scripts": {
-        "build-ci": "./lib.utility2.sh shReadmeTest build_ci.sh",
+        "apidocRawCreate": "[ ! -f npm_scripts.sh ] || ./npm_scripts.sh shNpmScriptApidocRawCreate",
+        "apidocRawFetch": "[ ! -f npm_scripts.sh ] || ./npm_scripts.sh shNpmScriptApidocRawFetch",
+        "build-ci": "utility2 shReadmeTest build_ci.sh",
         "env": "env",
-        "heroku-postbuild": "./lib.utility2.sh shDeployHeroku",
-        "postinstall": "[ ! -f npm_scripts.sh ] || ./npm_scripts.sh postinstall",
-        "start": "set -e; export PORT=${PORT:-8080}; if [ -f assets.app.js ]; then node assets.app.js; else npm_config_mode_auto_restart=1 ./lib.utility2.sh shRun shIstanbulCover test.js; fi",
-        "test": "PORT=$(./lib.utility2.sh shServerPortRandom) PORT_REPL=$(./lib.utility2.sh shServerPortRandom) npm_config_mode_auto_restart=1 npm_config_timeout_default=60000 ./lib.utility2.sh test test.js"
+        "heroku-postbuild": "npm uninstall utility2 2>/dev/null; npm install kaizhu256/node-utility2#alpha && utility2 shDeployHeroku",
+        "postinstall": "[ ! -f npm_scripts.sh ] || ./npm_scripts.sh shNpmScriptPostinstall",
+        "start": "PORT=${PORT:-8080} utility2 start test.js",
+        "test": "PORT=$(utility2 shServerPortRandom) utility2 test test.js"
     },
-    "version": "2017.9.16"
+    "version": "2018.4.11",
+    "bin": {}
 }
 ```
 
